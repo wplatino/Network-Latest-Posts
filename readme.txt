@@ -3,8 +3,8 @@ Contributors: L'Elite
 Donate link: http://laelite.info
 Tags: recent posts, shortcode, widget, network, latest posts
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 3.5.4
+Tested up to: 3.6.1
+Stable tag: 4.0
 
 This plugin allows you to pull all the recent posts from the blogs in your WordPress network and display them in your main site (or internal sites)
 

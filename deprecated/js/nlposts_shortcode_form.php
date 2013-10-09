@@ -21,8 +21,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 // Retrieve the WordPress root path
-function nlp_config_path()
-{
+function nlp_config_path() {
     $base = dirname(__FILE__);
     $path = false;
     // Check multiple levels, until find the config file
@@ -34,6 +33,8 @@ function nlp_config_path()
         $path = dirname(dirname(dirname(dirname($base))));
     } elseif (@file_exists(dirname(dirname(dirname(dirname(dirname($base)))))."/wp-config.php")) {
         $path = dirname(dirname(dirname(dirname(dirname($base)))));
+    } elseif (@file_exists(dirname(dirname(dirname(dirname(dirname(dirname($base))))))."/wp-config.php")) {
+        $path = dirname(dirname(dirname(dirname(dirname(dirname($base))))));
     } else {
         $path = false;
     }

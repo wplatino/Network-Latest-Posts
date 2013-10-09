@@ -1,11 +1,22 @@
 <?php
-/*
-    Network Latest Posts Widget
-    Version 3.5
-    Author L'Elite
-    Author URI http://laelite.info/
+/**
+ * Network Latest Posts
+ *
+ * @package Network Latest Posts
+ * @author José SAYAGO <jose.sayago@laelite.info>
+ * @file nlposts-widgets.php
+ *
+ * Widgets
+ *      Class for providing Widgets through the WordPress Dashboard.
  */
-/*  Copyright 2012  L'Elite (email : opensource@laelite.info)
+/*  @section LICENSE
+
+    Copyright (C) 2013  L'Elite de José SAYAGO
+
+    'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
+    'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
+    be re-used in conjunction with the GPL v2 usage of this software 
+    under the license terms of the GPL v2 without permission.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -20,8 +31,6 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-// Load main functionalities
-include_once dirname( __FILE__ ) . '/network-latest-posts.php';
 /* NLposts_Widget Class extending the WP_Widget class
  *
  * This beauty is used to create a multi-instance widget
@@ -64,7 +73,9 @@ class NLposts_Widget extends WP_Widget {
         'wrapper_list_css' => 'nav nav-tabs nav-stacked', // Custom CSS classes for the list wrapper
         'wrapper_block_css'=> 'content',     // Custom CSS classes for the block wrapper
         'random'           => FALSE,         // Pull random posts (true or false)
-        'post_ignore'      => NULL           // Post ID(s) to ignore
+        'post_ignore'      => NULL,          // Post ID(s) to ignore
+        'use_pub_date'     => FALSE,         // AFW Display the most recently published posts first regardless of the blog they come from
+        'honor_sticky'     => FALSE          // AFW Sort sticky posts to the top of the list, ordered by requested sort order
     );
 
     /*
@@ -214,6 +225,8 @@ class NLposts_Widget extends WP_Widget {
         $instance['wrapper_block_css']= strip_tags($new_instance['wrapper_block_css']);
         $instance['random']           = strip_tags($new_instance['random']);
         $instance['post_ignore']      = strip_tags($new_instance['post_ignore']);
+        $instance['use_pub_date']     = strip_tags($new_instance['use_pub_date']);
+        $instance['honor_sticky']     = strip_tags($new_instance['honor_sticky']);
         // Width by default
         if( $instance['thumbnail_w'] == '0' ) { $instance['thumbnail_w'] = '80'; }
         // Height by default
@@ -266,7 +279,7 @@ class NLposts_Widget extends WP_Widget {
         $widget_form.= "<input type='text' size='3' id='".$this->get_field_id('time_frame')."' name='".$this->get_field_name('time_frame')."' value='$time_frame' />";
         $widget_form.= $br;
         // title_only
-        $widget_form.= "<label for='".$this->get_field_id('title_only')."'>" . __('Titles Only','trans-nlp') . "</label>";
+        $widget_form.= "<label for='".$this->get_field_id('title_only')."'>" . __('Title Only', 'trans-nlp') . "</label>";
         $widget_form.= $br;
         $widget_form.= "<select id='".$this->get_field_id('title_only')."' name='".$this->get_field_name('title_only')."'>";
         if( $title_only == 'true' ) {
@@ -625,6 +638,32 @@ class NLposts_Widget extends WP_Widget {
         } else {
             $widget_form.= "<option value='asc'>" . __('Ascendant','trans-nlp') . "</option>";
             $widget_form.= "<option value='desc'>" . __('Descendant','trans-nlp') . "</option>";
+        }
+        $widget_form.= "</select>";
+        // Use publication date
+        $widget_form.= $br;
+        $widget_form.= "<label for='".$this->get_field_id('use_pub_date')."'>" . __('Use Publication Date','trans-nlp') . "</label>";
+        $widget_form.= $br;
+        $widget_form.= "<select id='".$this->get_field_id('use_pub_date')."' name='".$this->get_field_name('use_pub_date')."'>";
+        if( $use_pub_date == 'true' ) {
+            $widget_form.= "<option value='true' selected='selected'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false'>" . __('No','trans-nlp') . "</option>";
+        } else {
+            $widget_form.= "<option value='true'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false' selected='selected'>" . __('No','trans-nlp') . "</option>";
+        }
+        $widget_form.= "</select>";
+        // Honor sticky posts
+        $widget_form.= $br;
+        $widget_form.= "<label for='".$this->get_field_id('honor_sticky')."'>" . __('Honor Sticky Posts','trans-nlp') . "</label>";
+        $widget_form.= $br;
+        $widget_form.= "<select id='".$this->get_field_id('honor_sticky')."' name='".$this->get_field_name('honor_sticky')."'>";
+        if( $honor_sticky == 'true' ) {
+            $widget_form.= "<option value='true' selected='selected'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false'>" . __('No','trans-nlp') . "</option>";
+        } else {
+            $widget_form.= "<option value='true'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false' selected='selected'>" . __('No','trans-nlp') . "</option>";
         }
         $widget_form.= "</select>";
         // sorting_limit

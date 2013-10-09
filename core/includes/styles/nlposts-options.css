@@ -1,0 +1,179 @@
+/**
+ * Network Latest Posts
+ *
+ * @package Network Latest Posts
+ * @author José SAYAGO <jose.sayago@laelite.info>
+ * @file nlposts-options.css
+ *
+ * Options
+ *      CSS Stylesheet.
+ */
+/*  @section LICENSE
+
+    Copyright (C) 2013  L'Elite de José SAYAGO
+
+    'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
+    'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
+    be re-used in conjunction with the GPL v2 usage of this software 
+    under the license terms of the GPL v2 without permission.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+.nlposts-options-header {
+    border-bottom: 2px solid rgba(236, 240, 241,1.0);
+}
+#nlposts-options-icon {
+    background: url( 'images/option_icon.png' ) no-repeat;
+ }
+.nlposts-options .nlp-theme-del {
+    float: right;
+    margin: 0 0.2em;
+    padding: 0.1em 0.4em;
+    color: rgba(236, 240, 241, 1);
+    background: rgba(192, 57, 43, 1);
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options .nlp-theme-del:hover {
+    background: rgba(255, 255, 255, 1);
+    color: rgba(192, 57, 43, 1.0);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options ul,
+.nlposts-options li {
+    list-style: none;
+}
+.nlposts-options .nlp-theme-list {
+    float: left;
+    width: 45%;
+    margin-right: 5%;
+}
+.nlposts-options .nlp-theme-list li {
+    padding: 0.4em 0.2em;
+    background: rgba(236, 240, 241, 1);
+}
+.nlposts-dialog .ui-dialog {
+    box-shadow: 0 0 5px rgba(235, 240, 241, 1);
+    background: rgba(254, 254, 254, 1);
+}
+.nlposts-dialog .ui-dialog-titlebar {
+    background: rgba(236, 240, 241, 1);
+    text-align: right;
+    padding: .3em;
+}
+.nlposts-dialog .ui-dialog-titlebar-close {
+    cursor: pointer;
+    padding: .2em;
+    border: 0;
+    color: rgba(192, 57, 43, 1);
+    background: transparent;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-dialog .ui-dialog-titlebar-close:hover {
+    background: transparent;
+    color: rgba(0, 0, 0, 1);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-dialog .ui-dialog-titlebar-close .ui-button-text {
+    display: none;
+}
+.nlposts-dialog .ui-icon-closethick:before {
+    content: "\2716";
+}
+.nlposts-dialog .ui-dialog-buttonset {
+    text-align: center;
+    padding: .3em;
+    background: rgba(236, 240, 241, 1);
+}
+.nlposts-dialog .ui-dialog-content {
+    padding: 1em;
+    color: rgba(10,10,10,1);
+    background: rgba(255, 255, 255, 1);
+}
+.nlposts-dialog .ui-button-text-only {
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    color: rgba(39, 174, 96, 1);
+    background: rgba(255, 255, 255, 1);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.8em;
+    margin: 0 0.2em;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-dialog .ui-button-text-only:hover,
+.nlposts-dialog .ui-button-text-only:focus {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(39, 174, 96, 1);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options label {
+    padding: .4em;
+    color: rgba(44, 62, 80,1.0);
+    background: rgba(236, 240, 241, 1);
+    float: left;
+    display: block;
+    width: 200px;
+}
+.nlposts-options label:before {
+    content: "\279C";
+    padding: 0 .5em 0 0;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 0 1px rgba(149, 165, 166, 1.0);
+}
+.nlposts_selector {
+    appearance: button;
+    -moz-appearance: button;
+    -webkit-appearance: button;
+    border-radius: 0;
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+    background: rgba(39, 174, 96, 1);
+    color: rgba(255, 255, 255, 1);
+    width: 200px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    text-indent: 1em;
+    cursor: pointer;
+}
+.nlposts_selector.warning {
+    background: rgba(211, 84, 0,1.0);
+}
