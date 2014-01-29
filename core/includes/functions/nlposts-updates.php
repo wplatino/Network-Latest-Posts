@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
 
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 

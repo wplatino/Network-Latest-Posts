@@ -10,7 +10,7 @@
  */
 /*  @section LICENSE
 
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -33,9 +33,16 @@
 .nlposts-options-header {
     border-bottom: 2px solid rgba(236, 240, 241,1.0);
 }
+.nlposts-options-header #nlposts-options-icon,
+.nlposts-options-header h2 {
+    display: inline-block;
+    vertical-align: middle;
+}
 #nlposts-options-icon {
     background: url( 'images/option_icon.png' ) no-repeat;
- }
+    width: 32px;
+    height: 32px;
+}
 .nlposts-options .nlp-theme-del {
     float: right;
     margin: 0 0.2em;
@@ -121,7 +128,7 @@
     cursor: pointer;
     outline: none;
     border: 0;
-    color: rgba(39, 174, 96, 1);
+    color: rgba(100, 189, 99, 1);
     background: rgba(255, 255, 255, 1);
     text-transform: uppercase;
     font-weight: bold;
@@ -136,7 +143,7 @@
 .nlposts-dialog .ui-button-text-only:hover,
 .nlposts-dialog .ui-button-text-only:focus {
     color: rgba(255, 255, 255, 1);
-    background: rgba(39, 174, 96, 1);
+    background: rgba(100, 189, 99, 1);
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -144,12 +151,10 @@
     transition: all 0.5s ease-in-out;
 }
 .nlposts-options label {
-    padding: .4em;
     color: rgba(44, 62, 80,1.0);
-    background: rgba(236, 240, 241, 1);
     float: left;
     display: block;
-    width: 200px;
+    width: 250px;
 }
 .nlposts-options label:before {
     content: "\279C";
@@ -165,7 +170,7 @@
     border-width: 0;
     border-style: none;
     border-color: transparent;
-    background: rgba(39, 174, 96, 1);
+    background: rgba(100, 189, 99, 1);
     color: rgba(255, 255, 255, 1);
     width: 200px;
     box-shadow: none;
@@ -175,5 +180,125 @@
     cursor: pointer;
 }
 .nlposts_selector.warning {
-    background: rgba(211, 84, 0,1.0);
+    background: rgba(211, 84, 0, 1);
+}
+.nlposts_submit {
+    outline: none;
+    border-radius: 0 !important;
+    background: rgba(100, 189, 99, 1) !important;
+    color: rgba(255, 255, 255, 1) !important;
+    border-color: rgba(90, 179, 89, 1) !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    vertical-align: top;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts_submit:hover,
+.nlposts_submit:active {
+    background: rgba(80, 169, 79, 1) !important;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options .quick-menu {
+    width: 20%;
+    border: 1px solid rgba(234, 234, 234, 1);
+    background: rgba(244, 244, 244, 1);
+}
+.nlposts-options .quick-menu .quick-menu-title {
+    font-size: 105%;
+    background: rgba(100, 189, 99, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: .5em;
+}
+.nlposts-options .quick-menu .links {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+}
+.nlposts-options .quick-menu .links a:before {
+    content: " » ";
+}
+.nlposts-options .quick-menu .links a {
+    display: block;
+    line-height: 1.5em;
+    width: 95%;
+    padding: .5em 0 .5em 5%;
+    text-decoration: none;
+    color: rgba(80, 169, 79, 1);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options .quick-menu .links a:hover {
+    background: rgba(80, 169, 79, 1);
+    color: rgba(255, 255, 255, 1);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, .1);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options .nlp-back-link {
+    font-size: 90%;
+    color: rgba(80, 169, 79, 1);
+    text-decoration: none;
+    vertical-align: middle;
+    padding: .5em;
+    height: 25px;
+    display: inline-block;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options .nlp-back-link:hover {
+    color: rgba(243, 156, 18, 1);
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.nlposts-options .nlposts-stats {
+    border: 1px solid rgba(234, 234, 234, 1);
+    background: rgba(244, 244, 244, 1);
+}
+.nlposts-options .nlposts-stats .quick-menu-title {
+    font-size: 105%;
+    background: rgba(100, 189, 99, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: .5em;
+}
+.nlposts-options .cache {
+    position: relative;
+    float: left;
+    width: 60%;
+    top: -217px;
+    left: 21.5%;
+}
+.nlposts-options .cache div {
+    padding: .5em;
+}
+.nlposts-options .alert {
+    padding: 1em;
+    font-size: 105%;
+    text-align: center;
+    background: rgba(243, 156, 18, 1);
+    color: rgba(211, 84, 0, 1);
+    text-shadow: 0 0 2px rgba(0, 0, 0, .1);
+}
+.nlposts-options .foot-back-links {
+    clear: both;
 }

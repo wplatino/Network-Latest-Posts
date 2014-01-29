@@ -1,10 +1,22 @@
-/*
-    Network Latest Posts TinyMCE Plugin
-    Version 1.0
-    Author L'Elite
-    Author URI https://laelite.info/
+/**
+ * Network Latest Posts
+ *
+ * @package Network Latest Posts
+ * @author José SAYAGO <jose.sayago@laelite.info>
+ * @file nlp_tinymce_button.php
+ *
+ * TinyMCE Button
+ *      This file contains adds a TinyMCE button for 
+ *      Network Latest Posts.
  */
-/*  Copyright 2012  L'Elite (email : opensource@laelite.info)
+/*  @section LICENSE
+
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
+
+    'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
+    'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
+    be re-used in conjunction with the GPL v2 usage of this software 
+    under the license terms of the GPL v2 without permission.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as

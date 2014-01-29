@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
 
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -36,8 +36,10 @@
  */
 $wp_upload_dir = wp_upload_dir();
 define( 'NLP_DIR',          '/'.basename( dirname( __FILE__ ) ).'/',                true );
+define( 'NLP_NAME',         'Network Latest Posts',                                 true );
 define( 'NLP_VERSION',      '4.0',                                                  true );
 define( 'NLP_TEXTDOMAIN',   'trans-nlp',                                            true );
+define( 'NLP_TRANSIENT',    'nlposts_data_',                                        true );
 define( 'NLP_ROOT',         dirname( __FILE__ ),                                    true );
 define( 'NLP_THEMES',       NLP_ROOT . '/themes/',                                  true );
 define( 'NLP_THEME_USERN', 'nlposts_themes',                                        true );
@@ -78,6 +80,7 @@ define( 'NLP_THEMES_USER_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEME_USERN .
  * are well aware of new features present in version 4.0 are
  * encouraged to disable deprecated mode through the options panel.
  */
+require_once NLP_LIBRARIES  . 'nlposts-html.php';
 if( NLP_DEPRECATED != 'yes' ) {
     /**
      * System Assets
@@ -87,13 +90,41 @@ if( NLP_DEPRECATED != 'yes' ) {
     require_once NLP_FUNCTIONS  . 'nlposts-updates.php';
     require_once NLP_LIBRARIES  . 'nlposts-placeholders.php';
     require_once NLP_LIBRARIES  . 'nlposts-themes.php';
-    require_once NLP_LIBRARIES  . 'nlposts-html.php';
     require_once NLP_THEMES     . 'nlposts-theme-loader.php';
-    if( NLP_ACF == 'yes' )
-        require_once NLP_LIBRARIES . 'nlposts-acf.php';
+    if( NLP_ACF == 'yes' ) {
+        /**
+         * Check if Advanced Custom Fields plugin is installed
+         */
+        if( file_exists( WP_CONTENT_DIR . '/plugins/advanced-custom-fields/acf.php' ) ) {
+            require_once NLP_LIBRARIES . 'nlposts-acf.php';
+        } else {
+            /**
+             * Otherwise, do not load support for ACF
+             */
+            if( get_option( 'nlposts_load_acf' ) === false ) {
+                add_option( 'nlposts_load_acf', 'no' );
+            } elseif( get_option( 'nlposts_load_acf' ) != 'no' ) {
+                update_option( 'nlposts_load_acf', 'no' );
+            }
+        }
+    }
     if( NLP_WOO == 'yes' ) {
-        @require_once WP_CONTENT_DIR . '/plugins/woocommerce/woocommerce.php';
-        require_once NLP_LIBRARIES . 'nlposts-woo.php';
+        /**
+         * Check if WooCommerce plugin is installed
+         */
+        if( file_exists( WP_CONTENT_DIR . '/plugins/woocommerce/woocommerce.php' ) ) {
+            require_once WP_CONTENT_DIR . '/plugins/woocommerce/woocommerce.php';
+            require_once NLP_LIBRARIES . 'nlposts-woo.php';
+        } else {
+            /**
+             * Otherwise, do not load support for WooCommerce
+             */
+            if( get_option( 'nlposts_load_woo' ) === false ) {
+                add_option( 'nlposts_load_woo', 'no' );
+            } elseif( get_option( 'nlposts_load_woo' ) != 'no' ) {
+                update_option( 'nlposts_load_woo', 'no' );
+            }
+        }
     }
     /**
      * Set Upload Folder
@@ -115,7 +146,7 @@ if( NLP_DEPRECATED != 'yes' ) {
 require_once NLP_FUNCTIONS  . 'nlposts-options.php';
 require_once NLP_LIBRARIES  . 'nlposts-phrases.php';
 /**
- * Made in Venezuela
+ * Made in Venezuela by L'Elite
  * @link http://laelite.info
  *
  * Logos by José de Jesús SAYAGO

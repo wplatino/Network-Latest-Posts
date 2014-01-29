@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
 
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -194,7 +194,7 @@ class NLPosts_Core {
         // Keep results in Cache
         if( $settings->cache_results == 'yes' ) {
             // Get results using WordPress Transients
-            if( !empty ( $posts_transient = get_transient( "nlp_data_".$settings->instance_id ) ) )
+            if( !empty ( $posts_transient = get_transient( NLP_TRANSIENT.$settings->instance_id ) ) )
                 return $posts_transient;
         }
         /**
@@ -297,36 +297,37 @@ class NLPosts_Core {
         /**
          * Post Types
          */
-        if( !empty( @$post_type ) ) {
-            if( !preg_match( "/,/", @$post_type ) ) {
-                if( @$post_type != 'post' )
-                    @$types[] = htmlspecialchars( $post_type );
+        if( !empty( $post_type ) ) {
+            if( !preg_match( "/,/", $post_type ) ) {
+                if( $post_type != 'post' )
+                    $types[] = htmlspecialchars( $post_type );
             } else {
-                @$post_type = explode( ",", @$post_type );
-                foreach ( @$post_type as $type ) {
-                    @$types[] = htmlspecialchars( $type );
+                $post_type = explode( ",", $post_type );
+                foreach ( $post_type as $type ) {
+                    $types[] = htmlspecialchars( $type );
                 }
             }
         } else
-            @$types = array();
+            $types = array();
 
-        @$posts_options['post_type'] = @$types;
+        $posts_options['post_type'] = $types;
         /**
          * Post Languages
          */
-        if( !empty( @$post_language ) ) {
-            if( @$post_language != 'all' ) {
-                if( !preg_match( "/,/", @$post_language ) )
-                    @$post_languages[] = htmlspecialchars( $post_language );
+        if( !empty( $post_language ) ) {
+            if( $post_language != 'all' ) {
+                if( !preg_match( "/,/", $post_language ) )
+                    $post_languages[] = htmlspecialchars( $post_language );
                 else {
-                    @$post_language = explode( ",", @$post_language );
-                    foreach( @$post_language as $post_lang ) {
-                        @$post_languages[] = htmlspecialchars( $post_lang );
+                    $post_language = explode( ",", $post_language );
+                    foreach( $post_language as $post_lang ) {
+                        $post_languages[] = htmlspecialchars( $post_lang );
                     }
                 }
-            }
+            } else
+                $post_languages = $post_language;
         }
-        @$posts_options['post_language'] = @$post_languages;
+        $posts_options['post_language'] = $post_languages;
         /**
          * Categories to Include or Exclude
          */
@@ -574,9 +575,11 @@ class NLPosts_Core {
                 // Restore current blog
                 restore_current_blog();
             }
+
             // Merge blog data with posts
             $posts[$id] = array_merge( $blog_data[$blog_id], $posts[$id] );
         }
+
         // Loop posts
         foreach( $posts as $post ) {
             // Ignore blog info
@@ -608,6 +611,7 @@ class NLPosts_Core {
                 $post[$count]->permalink    = get_blog_permalink( $post['blog_id'], $post[$count]->ID );
                 // Post language
                 switch_to_blog( $post['blog_id'] );
+                    // WPML Compatibility
                     if( function_exists( 'wpml_get_language_information' ) ) {
                         $post_lang = wpml_get_language_information( $post[$count]->ID );
                         $post[$count]->language = $post_lang['locale'];
@@ -673,9 +677,9 @@ class NLPosts_Core {
             // Keep results in Cache
             if( $settings->cache_results == 'yes' ) 
                 // Cache results using WordPress Transients
-                if( false === ( $posts_transient = get_transient( "nlp_data_".$settings->instance_id ) ) )
+                if( false === ( $posts_transient = get_transient( NLP_TRANSIENT.$settings->instance_id ) ) )
                     // Cache data
-                    set_transient( "nlp_data_".$settings->instance_id, $posts_without_blog, $settings->cache_time );
+                    set_transient( NLP_TRANSIENT.$settings->instance_id, $posts_without_blog, $settings->cache_time );
                 else
                     return $posts_transient;
             // Return post data
@@ -698,9 +702,9 @@ class NLPosts_Core {
             // Keep results in Cache
             if( $settings->cache_results == 'yes' ) 
                 // Cache results using WordPress Transients
-                if( false === ( $posts_transient = get_transient( "nlp_data_".$settings->instance_id ) ) )
+                if( false === ( $posts_transient = get_transient( NLP_TRANSIENT.$settings->instance_id ) ) )
                     // Cache data
-                    set_transient( "nlp_data_".$settings->instance_id, $posts_by_blog, $settings->cache_time );
+                    set_transient( NLP_TRANSIENT.$settings->instance_id, $posts_by_blog, $settings->cache_time );
                 else
                     return $posts_transient;
             // Return post data
@@ -813,23 +817,23 @@ class NLPosts_Core {
          */
         if( !preg_match( "/,/", $query_args['blog_include'] ) ) {
             // Sanitize
-            @$blog_include = (int)htmlspecialchars( $query_args['blog_include'] );
+            $blog_include = (int)htmlspecialchars( $query_args['blog_include'] );
             // Numbers only
-            if( is_numeric( @$blog_include ) )
+            if( is_numeric( $blog_include ) )
                 if( $blog_include > 0 )
                     // SQL
-                    @$blog_include_sql = " AND blog_id = $blog_include ";
+                    $blog_include_sql = " AND blog_id = $blog_include ";
         } else {
             // String to Array
-            @$blog_include = explode( ",", $query_args['blog_include'] );
+            $blog_include = explode( ",", $query_args['blog_include'] );
             // SQL
-            for( $counter = 0; $counter < count( @$blog_include ); $counter++ ) {
+            for( $counter = 0; $counter < count( $blog_include ); $counter++ ) {
                 // SQL ( AND for the first one )
                 if( $counter == 0 )
-                    @$blog_include_sql .= " AND blog_id = " . (int)$blog_include[ $counter ];
+                    $blog_include_sql .= " AND blog_id = " . (int)$blog_include[ $counter ];
                 // SQL ( OR for the rest )
                 else
-                    @$blog_include_sql .= " OR blog_id = " . (int)$blog_include[ $counter ];
+                    $blog_include_sql .= " OR blog_id = " . (int)$blog_include[ $counter ];
             }
         }
         /**
@@ -843,18 +847,18 @@ class NLPosts_Core {
          */
         if( !preg_match( "/,/", $query_args['blog_exclude'] ) ) {
             // Sanitize
-            @$blog_exclude = (int)htmlspecialchars( $query_args['blog_exclude'] );
+            $blog_exclude = (int)htmlspecialchars( $query_args['blog_exclude'] );
             // Numbers only
-            if( is_numeric( @$blog_exclude ) )
-                if( @$blog_exclude > 0 )
+            if( is_numeric( $blog_exclude ) )
+                if( $blog_exclude > 0 )
                     // SQL
-                    @$blog_exclude_sql = " AND blog_id != $blog_exclude ";
+                    $blog_exclude_sql = " AND blog_id != $blog_exclude ";
         } else {
             // String to Array
             $blog_exclude = explode( ",", trim( $query_args['blog_exclude'] ) );
             // and repeat the sql for each ID found
-            for( $counter = 0; $counter < count( @$blog_exclude ); $counter++ ) {
-                @$blog_exclude_sql .= " AND blog_id != " . (int)$blog_exclude[ $counter ];
+            for( $counter = 0; $counter < count( $blog_exclude ); $counter++ ) {
+                $blog_exclude_sql .= " AND blog_id != " . (int)$blog_exclude[ $counter ];
             }
         }
         /**
@@ -880,29 +884,29 @@ class NLPosts_Core {
          */
         if( !preg_match( "/,/", $query_args['blog_visibility'] ) ) {
             // Sanitize
-            @$blog_visibility = htmlspecialchars( $query_args['blog_visibility'] );
+            $blog_visibility = htmlspecialchars( $query_args['blog_visibility'] );
             // Invisible blogs are special
-            if( @$blog_visibility != 'invisible' )
-                @$blog_visibility_sql = " $blog_visibility = '1' ";
+            if( $blog_visibility != 'invisible' )
+                $blog_visibility_sql = " $blog_visibility = '1' ";
             else
-                @$blog_visibility_sql = " public = '0' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ";
+                $blog_visibility_sql = " public = '0' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ";
         } else {
             // String to Array
-            @$blog_visibility = explode( ",", $query_args['blog_visibility'] );
+            $blog_visibility = explode( ",", $query_args['blog_visibility'] );
             // Walk array
-            for( $counter = 0; $counter < count( @$blog_visibility ); $counter++ ) {
+            for( $counter = 0; $counter < count( $blog_visibility ); $counter++ ) {
                 // Build SQL
                 if( $counter == 0 ) {
                     // Invisible blogs are special
-                    if( trim( @$blog_visibility[ $counter ] ) != 'invisible' )
-                        @$blog_visibility_sql .= trim( @$blog_visibility[ $counter ] ) . " = '1' ";
+                    if( trim( $blog_visibility[ $counter ] ) != 'invisible' )
+                        $blog_visibility_sql .= trim( $blog_visibility[ $counter ] ) . " = '1' ";
                     else
-                        @$blog_visibility_sql .= " ( public = '0' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ) ";
+                        $blog_visibility_sql .= " ( public = '0' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ) ";
                 } else {
-                    if( trim( @$blog_visibility[ $counter ] ) != 'invisible' )
-                        @$blog_visibility_sql .= " OR " . trim( @$blog_visibility[ $counter ] ) . " = '1' ";
+                    if( trim( $blog_visibility[ $counter ] ) != 'invisible' )
+                        $blog_visibility_sql .= " OR " . trim( $blog_visibility[ $counter ] ) . " = '1' ";
                     else
-                        @$blog_visibility_sql .= " OR ( public = '0' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0'  ) ";
+                        $blog_visibility_sql .= " OR ( public = '0' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0'  ) ";
                 }
             }
         }
@@ -916,17 +920,17 @@ class NLPosts_Core {
          */
         if( $query_args['blog_language'] != 'all' ) {
             if( !preg_match( "/,/", $query_args['blog_language'] ) )
-                @$blog_language[] = htmlspecialchars( $query_args['blog_language'] );
+                $blog_language[] = htmlspecialchars( $query_args['blog_language'] );
             else {
-                @$blog_language = explode( ",", $query_args['blog_language'] );
-                for( $counter = 0; $counter < count( @$blog_language ); $counter++ ) {
-                    @$blog_language[$counter] = trim( @$blog_language[$counter] );
+                $blog_language = explode( ",", $query_args['blog_language'] );
+                for( $counter = 0; $counter < count( $blog_language ); $counter++ ) {
+                    $blog_language[$counter] = trim( $blog_language[$counter] );
                 }
             }
         } else
             $blog_language = null;
         // SQL Query
-        $query_data = "SELECT blog_id, registered, last_updated FROM $wpdb->blogs WHERE " . @$blog_visibility_sql . @$blog_include_sql . @$blog_exclude_sql;
+        $query_data = "SELECT blog_id, registered, last_updated FROM $wpdb->blogs WHERE " . $blog_visibility_sql . $blog_include_sql . $blog_exclude_sql;
         // Get Blog Info
         $blog_info = $wpdb->get_results( $wpdb->prepare( $query_data, '%s' ) );
         // Put blog info into an array
@@ -949,11 +953,11 @@ class NLPosts_Core {
                     // Check for matching languages
                     if( in_array( $blog['language'], $blog_language) )
                         // Keep only those matching user settings
-                        @$blog_list[] = $blog;
+                        $blog_list[] = $blog;
                 }
             } else
                 // All blogs
-                @$blog_list = $blogs;
+                $blog_list = $blogs;
             // Return list of blogs
             return $blog_list;
         } else
@@ -1059,10 +1063,7 @@ class NLPosts_Core {
         wp_reset_query();
         // Filter by language
         if( $posts_options['post_language'] != 'all' ) {
-            if( preg_match( '/,/', $posts_options['post_language'] ) )
-                $lang_list = explode( ',', $posts_options['post_language'] );
-            else
-                $lang_list = array( $posts_options['post_language'] );
+            $lang_list = $posts_options['post_language'];
             for( $i = 0; $i < count( $posts ); $i++ ) {
                 // WPML compatibility
                 if( function_exists( 'wpml_get_language_information' ) ) {
@@ -1134,18 +1135,23 @@ class NLPosts_Core {
         }
         // Thumbnails from Advanced Custom Fields
         if( $parameters['thumbnail_type'] == 'acf' ) {
-            if( function_exists( 'get_field' ) ) {
-                $thumbnail_obj = new NLPosts_ACF();
-                $thumbnail_parameters = array(
-                    'blog_ids'              => $parameters['blog_id'],
-                    'post_ids'              => $parameters['post_id'],
-                    'thumbnail_field'       => $parameters['thumbnail_field'],
-                    'thumbnail_size'        => $parameters['thumbnail_size'],
-                    'thumbnail_service'     => $parameters['thumbnail_service'],
-                    'thumbnail_parameters'  => $parameters['thumbnail_parameters'],
-                );
-                $thumbnails = $thumbnail_obj->thumbnail( $thumbnail_parameters );
-            }
+            // Check if ACF has been loaded
+            if( NLP_ACF == 'yes' ) {
+                if( function_exists( 'get_field' ) ) {
+                    $thumbnail_obj = new NLPosts_ACF();
+                    $thumbnail_parameters = array(
+                        'blog_ids'              => $parameters['blog_id'],
+                        'post_ids'              => $parameters['post_id'],
+                        'thumbnail_field'       => $parameters['thumbnail_field'],
+                        'thumbnail_size'        => $parameters['thumbnail_size'],
+                        'thumbnail_service'     => $parameters['thumbnail_service'],
+                        'thumbnail_parameters'  => $parameters['thumbnail_parameters'],
+                    );
+                    $thumbnails = $thumbnail_obj->thumbnail( $thumbnail_parameters );
+                }
+            } else
+                // ACF Library has not been loaded
+                return false;
         }
         // Return thumbnails
         return $thumbnails;

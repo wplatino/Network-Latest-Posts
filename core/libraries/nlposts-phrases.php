@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
     
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -67,14 +67,17 @@ class NLPosts_Phrases {
         return $excerpts;
     }
     /**
-     * 
+     * Phrases for Elements 
+     * present in the Dashboard Panel
      */
     public function nlposts_options_phrase() {
         // Phrases
         $options = apply_filters( 'nlposts_custom_options_phrase', array(
             'dashboard_panel'           => __( 'Network Latest Posts | Dashboard',          NLP_TEXTDOMAIN ),
+            'dashboard_main'            => __( 'Dashboard',                                 NLP_TEXTDOMAIN ),
             'dashboard_menu'            => __( 'Network Latest Posts',                      NLP_TEXTDOMAIN ),
             'dashboard_slug'            => __( 'nlposts-options',                           NLP_TEXTDOMAIN ),
+            'dashboard_cache'           => __( 'Cached Results',                            NLP_TEXTDOMAIN ),
             'dashboard_general_panel'   => __( 'Network Latest Posts | General Settings',   NLP_TEXTDOMAIN ),
             'dashboard_general_menu'    => __( 'General Settings',                          NLP_TEXTDOMAIN ),
             'dashboard_general_slug'    => __( 'nlposts-general-settings',                  NLP_TEXTDOMAIN ),
@@ -82,11 +85,13 @@ class NLPosts_Phrases {
             'dashboard_themes_menu'     => __( 'Theme Installer',                           NLP_TEXTDOMAIN ),
             'dashboard_themes_slug'     => __( 'nlposts-theme-installer',                   NLP_TEXTDOMAIN ),
             'dashboard_themes_field'    => __( 'Theme ZIP File',                            NLP_TEXTDOMAIN ),
-            'dashboard_themes_help'     => __( 'Theme must be in a .zip format.',           NLP_TEXTDOMAIN ),
+            'dashboard_themes_help'     => __( 'Theme must be in .zip format.',             NLP_TEXTDOMAIN ),
             'dashboard_themes_install'  => __( 'Install Now',                               NLP_TEXTDOMAIN ),
             'dashboard_themes_success'  => __( 'Theme was succesfully installed.',          NLP_TEXTDOMAIN ),
-            'dashboard_themes_error'    => __( 'Theme must be a Zip file. Try again.',      NLP_TEXTDOMAIN ),
-            'dashboard_themes_errorm'   => __( 'Zip file seems to be corrupted. Try again.',NLP_TEXTDOMAIN ),
+            'dashboard_themes_error'    => __( 'Theme must be a .zip file. Try again.',     NLP_TEXTDOMAIN ),
+            'dashboard_themes_errorm'   => __( '.zip file seems to be corrupted. Try again.',NLP_TEXTDOMAIN ),
+            'dashboard_internal_links'  => __( 'Quick Access',                              NLP_TEXTDOMAIN ),
+            'dashboard_external_links'  => __( 'Quick Links',                               NLP_TEXTDOMAIN ),
             'option_nlposts_deprecated' => __( 'Deprecated Mode',                           NLP_TEXTDOMAIN ),
             'option_nlposts_theme'      => __( 'Theme',                                     NLP_TEXTDOMAIN ),
             'option_nlposts_homepage'   => __( 'Set as Homepage',                           NLP_TEXTDOMAIN ),
@@ -102,6 +107,7 @@ class NLPosts_Phrases {
             'empty_records'             => __( 'No custom themes available yet.',           NLP_TEXTDOMAIN ),
             'theme_deleted'             => __( 'Theme successfuly deleted.',                NLP_TEXTDOMAIN ),
             'theme_not_deleted'         => __( 'Could not delete this theme. Try again.',   NLP_TEXTDOMAIN ),
+            'cached_results'            => _n('%d element in cache.', '%d elements in cache.', $x, NLP_TEXDOMAIN),
         ) );
         /**
          * WPML Support
@@ -116,6 +122,10 @@ class NLPosts_Phrases {
         // Return object
         return $options;
     }
+    /**
+     * Phrases for Alert 
+     * Notifications
+     */
     public function nlposts_alert_phrase() {
         $alerts = apply_filters( 'nlposts_custom_alerts_phrase', array(
             'alert_msg' => __( 'Sorry, there is no recent content to display.',             NLP_TEXTDOMAIN ),
@@ -131,6 +141,26 @@ class NLPosts_Phrases {
         }
         $alerts = json_decode( json_encode( $alerts ) );
         return $alerts;
+    }
+    /**
+     * Phrases for External
+     * Links
+     */
+    public function nlposts_external_links() {
+        $links = array(
+            'link_documentation'    => __( 'Documentation',                                 NLP_TEXTDOMAIN ),
+            'link_store'            => __( "L'Elite Store",                                 NLP_TEXTDOMAIN )
+        );
+        /**
+         * WPML Support
+         */
+        if ( function_exists( 'icl_translate' ) ) {
+            foreach( $links as $field => $string ) {
+                $links[$field] = icl_translate( NLP_TEXTDOMAIN, $field, $string );
+            }
+        }
+        $links = json_decode( json_encode( $links ) );
+        return $links;
     }
 }
 ?>

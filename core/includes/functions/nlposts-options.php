@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
 
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -93,10 +93,35 @@ class NLPosts_Options {
             NLP_VERSION, 
             'all' 
         );
+        wp_register_style(
+            'nlposts-switchery-style',
+            plugins_url( NLP_STYLES_REL . '/switchery.min.css', dirname( dirname( __FILE__ ) ) ),
+            '',
+            NLP_VERSION,
+            'all'
+        );
+        wp_enqueue_script(
+            'nlposts-switchery-script',
+            plugins_url( NLP_JS_REL . '/switchery.min.js', dirname( dirname( __FILE__ ) ) ),
+            false,
+            NLP_VERSION,
+            false
+        );
+        wp_enqueue_script(
+            'nlposts-switches-script',
+            plugins_url( NLP_JS_REL . '/switches.min.js', dirname( dirname( __FILE__ ) ) ),
+            false,
+            NLP_VERSION,
+            true
+        );
         // Load jQuery UI Dialog
         wp_enqueue_script( 'jquery-ui-dialog' );
+        // Load Switchery
+        wp_enqueue_script( 'nlposts-switchery-script' );
+        wp_enqueue_script( 'nlposts-switches-script' );
         // Enqueue style
         wp_enqueue_style( 'nlposts-options-style' );
+        wp_enqueue_style( 'nlposts-switchery-style' );
     }
     /**
      * Load Main Options Template
@@ -148,7 +173,7 @@ class NLPosts_Options {
     /**
      * Save Options
      *
-     * @var   string option and option name
+     * @var string option and option name
      */
     function nlposts_save_option( $option, $option_name ) {
         $option = htmlspecialchars( trim( $option ) );
@@ -158,6 +183,24 @@ class NLPosts_Options {
         } elseif( get_option( $option_name ) != $option ) {
             update_option( $option_name, $option );
         }
+    }
+    /**
+     * Get Transients
+     *
+     * @return array transient data
+     */
+    public function nlposts_transient_data() {
+        // WordPress Global Database Object
+        global $wpdb;
+        // Get Transients
+        $nlp_transients = $wpdb->get_results("SELECT DISTINCT option_name FROM $wpdb->options WHERE option_name LIKE '_transient_".NLP_TRANSIENT."%' ");
+        // If data exists
+        if( !empty( $nlp_transients ) )
+            // Return data
+            return $nlp_transients;
+        else
+            // Nothing
+            return false;
     }
 }
  ?>

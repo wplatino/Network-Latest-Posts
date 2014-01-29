@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
     
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -105,7 +105,7 @@ $header_text = $html5->header_tag( array(
     'structure' => 'h2',
     'class'     => '',
 ) );
-$icon32 = '<div id="nlposts-options-icon" class="icon32"><br></div>';
+$icon32 = '<div id="nlposts-options-icon"></div>';
 echo $html5->html5_structure( array( 
     'data'      => $icon32 . $header_text,
     'structure' => array( 'div' ),
@@ -132,6 +132,8 @@ if( isset( $_GET['delete'] ) ) {
 	}
 }
 ?>
+
+<hr />
 
 <div class="nlposts-options">
 	<?php
@@ -191,7 +193,28 @@ if( isset( $_GET['delete'] ) ) {
 		<input type="file" id="nlptheme" name="nlptheme" />
 		<?php submit_button( $phrases->nlposts_options_phrase()->dashboard_themes_install, 'button', 'install-theme-submit', false ); ?>
     </form>
+    <div class="foot-back-links">
+	    <?php
+	    	echo $html5->link_tag( array(
+	            'title'     => $phrases->nlposts_options_phrase()->dashboard_main,
+	            'href'      => 'admin.php?page=nlposts-options',
+	            'text'      => $phrases->nlposts_options_phrase()->dashboard_main,
+	            'target'    => '_self',
+	            'class'     => 'nlp-back-link',
+	        ) );
+	        echo $html5->link_tag( array(
+	            'title'     => $phrases->nlposts_options_phrase()->dashboard_general_menu,
+	            'href'      => 'admin.php?page=nlposts-general-settings',
+	            'text'      => $phrases->nlposts_options_phrase()->dashboard_general_menu,
+	            'target'    => '_self',
+	            'class'     => 'nlp-back-link',
+	        ) );
+	    ?>
+	</div>
 </div>
+
+<hr />
+
 <?php
 if( get_current_screen()->base == 'network-latest-posts_page_nlposts-theme-installer' ) {
 	wp_enqueue_script( 'nlposts-admin-ui', plugins_url().NLP_DIR.NLP_CORE_REL.NLP_JS_REL.'theme-install-ui.js' );

@@ -12,7 +12,7 @@ Author URI: http://laelite.info/
  */
 /*  @section LICENSE
 
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts' are unregistered trademarks of L'Elite, 
     and cannot be re-used in conjunction with the GPL v2 usage of this software 

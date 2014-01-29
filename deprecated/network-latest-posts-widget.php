@@ -8,7 +8,7 @@
  *
  * DEPRECATED
  * 
- * This file exists until users from <= 3.5.4 have upgraded to 4.0
+ * This file will be used till version 3.5.4
  */
 /* NLposts_Widget Class extending the WP_Widget class
  *

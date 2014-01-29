@@ -11,7 +11,7 @@
  */
 /*  @section LICENSE
     
-    Copyright (C) 2013  L'Elite de José SAYAGO
+    Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
     'NLPosts', 'Network Latest Posts', 'Network Latest Posts Evolution',
     'NLPosts Evolution' are unregistered trademarks of L'Elite, and cannot 
@@ -38,21 +38,33 @@ include_once( 'options-header.php' );
     'nlposts_deprecated'    => @htmlspecialchars( $_POST['nlposts_deprecated'] ),
     'nlposts_theme'         => @htmlspecialchars( $_POST['nlposts_theme'] ),
     'nlposts_homepage'      => @htmlspecialchars( $_POST['nlposts_homepage'] ),
+    'nlposts_load_acf'      => @htmlspecialchars( $_POST['nlposts_load_acf'] ),
+    'nlposts_load_woo'      => @htmlspecialchars( $_POST['nlposts_load_woo'] )
 );
 // Save params
 foreach( $options as $option_name => $option ) {
-    if( !empty( $option ) )
-        $option_obj->nlposts_save_option( $option, $option_name );
+    if( $_POST['save_options'] == true ) {
+        if( !empty( $option ) )
+            $option_obj->nlposts_save_option( $option, $option_name );
+        else {
+            if( $option_name == 'nlposts_deprecated' ) $option_obj->nlposts_save_option( 'no', $option_name );
+            if( $option_name == 'nlposts_load_acf' ) $option_obj->nlposts_save_option( 'no', $option_name );
+            if( $option_name == 'nlposts_load_woo' ) $option_obj->nlposts_save_option( 'no', $option_name );
+        }
+        header('Location:'.$_SERVER['REQUEST_URI']);
+    }
 }
 ?>
-
 <div class="nlposts-options-header">
-    <div id="nlposts-options-icon" class="icon32"><br></div>
+    <div id="nlposts-options-icon"></div>
     <h2><?php echo $phrases->nlposts_options_phrase()->dashboard_general_panel;  ?></h2>
 </div>
 
+<hr />
+
 <div class="nlposts-options">
     <form method="post" action="#">
+        <input type="hidden" name="save_options" value="true" />
         <?php
             settings_fields( 'nlposts_options_group' );
             do_settings_fields( __FILE__ , 'nlposts_options_group' );
@@ -61,22 +73,47 @@ foreach( $options as $option_name => $option ) {
             <label for="nlposts_deprecated"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_deprecated; ?></label>
         </p>
         <p>
-            <select class="nlposts_selector <?php if( get_option( 'nlposts_deprecated' ) === 'yes' ) echo 'warning'; ?>" name="nlposts_deprecated">
-                <?php if( get_option( 'nlposts_deprecated' ) === false || get_option( 'nlposts_deprecated' ) === 'yes' ) { ?>
-                    <option value="yes" selected="selected"><?php echo $phrases->nlposts_options_phrase()->yes; ?></option>
-                    <option value="no"><?php echo $phrases->nlposts_options_phrase()->no; ?></option>
-                <?php } elseif( get_option( 'nlposts_deprecated' ) === 'no' ) { ?>
-                    <option value="yes"><?php echo $phrases->nlposts_options_phrase()->yes; ?></option>
-                    <option value="no" selected="selected"><?php echo $phrases->nlposts_options_phrase()->no; ?></option>
-                <?php } ?>
-            </select>
+            <input type="checkbox" class="js-switch" name="nlposts_deprecated" value="yes" 
+            <?php if( get_option( 'nlposts_deprecated' ) === false || get_option( 'nlposts_deprecated' ) === 'yes' ) { ?> 
+            checked 
+            <?php } ?> />
         </p>
+        <?php
+            /**
+             * Display options only if 
+             * deprecated mode is not active.
+             */
+            if( NLP_DEPRECATED != 'yes' ) {
+        ?>
+        <p>
+            <label for="nlposts_load_acf"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_load_acf; ?></label>
+        </p>
+        <p>
+            <input type="checkbox" class="js-switch" name="nlposts_load_acf" value="yes" 
+            <?php if( get_option( 'nlposts_load_acf' ) === false || get_option( 'nlposts_load_acf' ) === 'yes' ) { ?> 
+            checked 
+            <?php } ?> />
+        </p>
+        <p>
+            <label for="nlposts_load_woo"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_load_woo; ?></label>
+        </p>
+        <p>
+            <input type="checkbox" class="js-switch" name="nlposts_load_woo" value="yes" 
+            <?php if( get_option( 'nlposts_load_woo' ) === false || get_option( 'nlposts_load_woo' ) === 'yes' ) { ?> 
+            checked 
+            <?php } ?> />
+        </p>
+
         <p>
             <label for="nlposts_theme"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_theme; ?></label>
         </p>
         <p>
             <select class="nlposts_selector" name="nlposts_theme">
                 <?php
+                    /**
+                     * Theme List
+                     * Makes a list of installed themes.
+                     */
                     $themes_local   = array_filter( glob( NLP_THEMES . '*' ), 'is_dir' );
                     $themes_user    = array_filter( glob( NLP_THEMES_USER . '*' ), 'is_dir' );
                     $themes = array_merge( $themes_local, $themes_user );
@@ -89,36 +126,29 @@ foreach( $options as $option_name => $option ) {
                 ?>
             </select>
         </p>
-        <p>
-            <label for="nlposts_load_acf"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_load_acf; ?></label>
-        </p>
-        <p>
-            <select class="nlposts_selector" name="nlposts_load_acf">
-                <?php if( get_option( 'nlposts_load_acf' ) === false || get_option( 'nlposts_load_acf' ) === 'yes' ) { ?>
-                    <option value="yes" selected="selected"><?php echo $phrases->nlposts_options_phrase()->yes; ?></option>
-                    <option value="no"><?php echo $phrases->nlposts_options_phrase()->no; ?></option>
-                <?php } elseif( get_option( 'nlposts_load_acf' ) === 'no' ) { ?>
-                    <option value="yes"><?php echo $phrases->nlposts_options_phrase()->yes; ?></option>
-                    <option value="no" selected="selected"><?php echo $phrases->nlposts_options_phrase()->no; ?></option>
-                <?php } ?>
-            </select>
-        </p>
-        <p>
-            <label for="nlposts_load_woo"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_load_woo; ?></label>
-        </p>
-        <p>
-            <select class="nlposts_selector" name="nlposts_load_woo">
-                <?php if( get_option( 'nlposts_load_woo' ) === false || get_option( 'nlposts_load_woo' ) === 'yes' ) { ?>
-                    <option value="yes" selected="selected"><?php echo $phrases->nlposts_options_phrase()->yes; ?></option>
-                    <option value="no"><?php echo $phrases->nlposts_options_phrase()->no; ?></option>
-                <?php } elseif( get_option( 'nlposts_load_woo' ) === 'no' ) { ?>
-                    <option value="yes"><?php echo $phrases->nlposts_options_phrase()->yes; ?></option>
-                    <option value="no" selected="selected"><?php echo $phrases->nlposts_options_phrase()->no; ?></option>
-                <?php } ?>
-            </select>
-        </p>
 
-        <?php echo get_submit_button(); ?>
+        <?php } ?>
+
+        <hr />
+
+        <?php 
+            echo get_submit_button('','nlposts_submit','submit','',''); 
+            echo $html5->link_tag( array(
+                'title'     => $phrases->nlposts_options_phrase()->dashboard_main,
+                'href'      => 'admin.php?page=nlposts-options',
+                'text'      => $phrases->nlposts_options_phrase()->dashboard_main,
+                'target'    => '_self',
+                'class'     => 'nlp-back-link',
+            ) );
+            echo $html5->link_tag( array(
+                'title'     => $phrases->nlposts_options_phrase()->dashboard_themes_menu,
+                'href'      => 'admin.php?page=nlposts-theme-installer',
+                'text'      => $phrases->nlposts_options_phrase()->dashboard_themes_menu,
+                'target'    => '_self',
+                'class'     => 'nlp-back-link',
+            ) );
+        ?>
+
     </form>
 </div>
 <?php
