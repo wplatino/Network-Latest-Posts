@@ -7,7 +7,7 @@
  * @file nlposts-core.php
  *
  * Core
- *      Application functionality.
+ *      Main application functionality.
  */
 /*  @section LICENSE
 
@@ -183,9 +183,9 @@ class NLPosts_Core {
      * Network Latest Posts
      *
      * Gets posts from all blogs in a network, using
-     * user's parameters (available in constructor).
+     * user parameters (available in constructor).
      *
-     * @param array $parameters User's parameters
+     * @param array $parameters User parameters
      * @return array $posts Posts data
      */
     protected function nlposts( $parameters ) {
@@ -210,6 +210,7 @@ class NLPosts_Core {
         $tag_exclude_from       = $settings->post_tag_exclude_from;
         $tag_include            = $settings->post_tag_include;
         $tag_include_from       = $settings->post_tag_include_from;
+        // Random sorting
         if( $settings->sort_random == 'yes' )
             $orderby            = 'rand';
         else
@@ -348,6 +349,7 @@ class NLPosts_Core {
                     }
                 }
             } else
+                // All languages
                 $post_languages = $post_language;
         }
         $posts_options['post_language'] = $post_languages;
@@ -861,6 +863,10 @@ class NLPosts_Core {
     }
     /**
      * Get Network Blogs
+     *
+     * Pull network blogs information.
+     * @param array $parameters Custom parameters
+     * @return array $blog_list List of blogs with data
      */
     protected function nlposts_get_blogs( $parameters = null ) {
         // WordPress Global Database Object
@@ -1272,7 +1278,7 @@ class NLPosts_Core {
      * 2.- Pre-filter function:
      *      add_filter( 'nlposts_custom_author_data', 'my_custom_author' );
      *
-     * @param array $parameters 
+     * @param array $parameters author profile settings
      * @return array $author_info containing author profile data.
      */
     protected function nlposts_author_data( $parameters ) {
@@ -1321,7 +1327,7 @@ class NLPosts_Core {
      *
      * Allows to publicly access shortcode function.
      *
-     * @param array $parameters Custom Network Latest Posts Evolution settings
+     * @param array $parameters Custom Network Latest Posts settings
      * @return callable $this->nlposts_shortcode() Loads nlposts_shortcode protected function
      */
     public function nlposts_do_shortcode( $parameters = null ) {
