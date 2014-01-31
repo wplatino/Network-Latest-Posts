@@ -68,13 +68,18 @@ class NLPosts_Core {
             'display_excerpt'   => 'no',
             'display_date'      => 'no',
             'display_author'    => 'no',
-            'display_author_img'=> 'no',
             'display_blog'      => 'no',
             'display_category'  => 'no',
             'display_tag'       => 'no',
             'display_comment'   => 'no',
             'display_thumbnail' => 'no',
             'display_content'   => 'no',
+            /**
+             * Author Settings
+             */
+            'author_image'          => 'no',
+            'author_image_size'     => '96',
+            'author_image_default'  => '',
             /**
              * Link Settings
              */
@@ -609,13 +614,51 @@ class NLPosts_Core {
                 $post[$count]->excerpt_link     = $excerpt->link;
                 // Permalinks
                 $post[$count]->permalink    = get_blog_permalink( $post['blog_id'], $post[$count]->ID );
-                // Post language
+                // Display Author
+                if( $settings->display_author == 'yes' ) {
+                    $author_settings = apply_filters( 'nlposts_custom_author_data', array(
+                        'user_login'            => 'no',
+                        'user_pass'             => 'no',
+                        'user_nicename'         => 'yes',
+                        'user_email'            => 'yes',
+                        'user_url'              => 'no',
+                        'user_registered'       => 'no',
+                        'user_activation_key'   => 'no',
+                        'user_status'           => 'no',
+                        'display_name'          => 'yes',
+                        'nickname'              => 'yes',
+                        'first_name'            => 'no',
+                        'last_name'             => 'no',
+                        'description'           => 'no',
+                        'jabber'                => 'no',
+                        'aim'                   => 'no',
+                        'yim'                   => 'no',
+                        'user_level'            => 'no',
+                        'user_firstname'        => 'no',
+                        'user_lastname'         => 'no',
+                        'rich_editing'          => 'no',
+                        'comment_shortcuts'     => 'no',
+                        'admin_color'           => 'no',
+                        'plugins_per_page'      => 'no',
+                        'plugins_last_view'     => 'no',
+                        'ID'                    => $post[$count]->post_author,
+                        'display_avatar'        => $settings->author_image,
+                        'avatar_size'           => $settings->author_image_size,
+                        'avatar_default'        => $settings->author_image_default,
+                        'blog_id'               => $post['blog_id'],
+                    ) );
+                    // Author Data
+                    $post[$count]->author = $this->nlposts_author_data( $author_settings );
+                }
+                // Switch to Blog
                 switch_to_blog( $post['blog_id'] );
+                    // Post Language
                     // WPML Compatibility
                     if( function_exists( 'wpml_get_language_information' ) ) {
                         $post_lang = wpml_get_language_information( $post[$count]->ID );
                         $post[$count]->language = $post_lang['locale'];
                     }
+                // Back to current blog
                 restore_current_blog();
                 // Default language
                 if( empty( $post[$count]->language ) )
@@ -977,7 +1020,7 @@ class NLPosts_Core {
      *
      * @param array $options Optional. Overrides defaults.
      * @param array $parameters Specific options for query: time_frame, query_date
-     * @return array List of posts.
+     * @return array $posts_filtered | $posts List of posts.
      */
     protected function nlposts_get_posts( $posts_options = null, $parameters ) {
         $default_options = apply_filters( 'nlposts_custom_get_posts', array(
@@ -1155,6 +1198,83 @@ class NLPosts_Core {
         }
         // Return thumbnails
         return $thumbnails;
+    }
+    /**
+     * Author Data
+     *
+     * Pull post author information.
+     * Default options can be modified using custom filter
+     * nlposts_custom_author_data.
+     *
+     * Default options are:
+     *      'user_login'            => 'no',
+     *      'user_pass'             => 'no',
+     *      'user_nicename'         => 'yes',
+     *      'user_email'            => 'yes',
+     *      'user_url'              => 'no',
+     *      'user_registered'       => 'no',
+     *      'user_activation_key'   => 'no',
+     *      'user_status'           => 'no',
+     *      'display_name'          => 'yes',
+     *      'nickname'              => 'yes',
+     *      'first_name'            => 'no',
+     *      'last_name'             => 'no',
+     *      'description'           => 'no',
+     *      'jabber'                => 'no',
+     *      'aim'                   => 'no',
+     *      'yim'                   => 'no',
+     *      'user_level'            => 'no',
+     *      'user_firstname'        => 'no',
+     *      'user_lastname'         => 'no',
+     *      'rich_editing'          => 'no',
+     *      'comment_shortcuts'     => 'no',
+     *      'admin_color'           => 'no',
+     *      'plugins_per_page'      => 'no',
+     *      'plugins_last_view'     => 'no',
+     *      'ID'                    => $post[$count]->post_author,
+     *      'display_avatar'        => $settings->author_image,
+     *      'avatar_size'           => $settings->author_image_size,
+     *      'avatar_default'        => $settings->author_image_default,
+     *      'blog_id'               => $post['blog_id'],
+     *
+     * @param array $parameters 
+     * @return array $author_info containing author profile data.
+     */
+    protected function nlposts_author_data( $parameters ) {
+        // Main parameters
+        $blog_id = (int)$parameters['blog_id'];
+        $author_id = (int)$parameters['ID'];
+        $avatar_size = (int)$parameters['avatar_size'];
+        $avatar_default = $parameters['avatar_default'];
+        $display_avatar = $parameters['display_avatar'];
+        // Switch to blog
+        switch_to_blog( $blog_id );
+            // Get user data
+            $author_data = get_userdata( $author_id );
+            // Display avatar?
+            if( $display_avatar == 'yes' ) {
+                // Get Gravatar
+                $author_data->avatar = get_avatar( $author_id, $avatar_size, $avatar_default );
+            }
+        // Restore current blog
+        restore_current_blog();
+        // Loop through parameters
+        foreach( $parameters as $field_name => $field_value ) {
+            // If parameter is set
+            if( $field_value != 'no' ) {
+                // And is not one of our internal parameters
+                if( !in_array( $field_name, array( 'display_avatar', 'avatar_size', 'blog_id' ) ) ) {
+                    // Set data
+                    $author_info[$field_name] = $author_data->$field_name;
+                }
+                // Avatar
+                if( $field_name == 'display_avatar' ) {
+                    $author_info[$field_name] = $author_data->avatar;
+                }
+            }
+        }
+        // Return Author profile data
+        return $author_info;
     }
     /**
      * @section PUBLIC METHODS
