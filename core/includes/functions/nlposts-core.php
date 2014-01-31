@@ -44,11 +44,12 @@ class NLPosts_Core {
             /**
              * Global UI Settings
              */
-            'instance_headline' => '',
-            'instance_id'       => 'nlp-'.rand(),
-            'alert_msg'         => $strings->nlposts_alert_phrase()->alert_msg,
-            'cache_results'     => 'no',
-            'cache_time'        => 43200,
+            'instance_headline'     => '',
+            'instance_id'           => 'nlp-'.rand(),
+            'alert_msg'             => $strings->nlposts_alert_phrase()->alert_msg,
+            'cache_results'         => 'no',
+            'cache_time'            => 43200,
+            'query_relationship'    => 'and',
             /**
              * Blog Settings
              */
@@ -382,7 +383,7 @@ class NLPosts_Core {
         $cat_tax = explode( ',', $category_taxonomy );
         if( !preg_match( '/,/', $category_taxonomy ) ) {
             $posts_options['tax_query'] = array(
-                'relation'      => 'AND',
+                'relation'      => $settings->query_relationship,
             );
             if( !empty( $category_exclude ) ) {
                 array_push( 
@@ -408,7 +409,7 @@ class NLPosts_Core {
             }
         } else {
             $posts_options['tax_query'] = array(
-                'relation'      => 'AND',
+                'relation'      => $settings->query_relationship,
             );
             if( !empty( $category_exclude ) ) {
                 foreach( $cat_tax as $taxonomy ) {
@@ -441,7 +442,7 @@ class NLPosts_Core {
         $tag_tax = explode( ',', $tag_taxonomy );
         if( !preg_match( '/,/', $tag_taxonomy ) ) {
             $posts_options['tax_query'] = array(
-                'relation'      => 'AND',
+                'relation'      => $settings->query_relationship,
             );
             if( !empty( $tag_exclude ) ) {
                 array_push( 
@@ -467,7 +468,7 @@ class NLPosts_Core {
             }
         } else {
             $posts_options['tax_query'] = array(
-                'relation'      => 'AND',
+                'relation'      => $settings->query_relationship,
             );
             if( !empty( $tag_exclude ) ) {
                 foreach( $tag_tax as $taxonomy ) {
@@ -687,7 +688,7 @@ class NLPosts_Core {
             if( $settings->sort_random == 'yes' )
                 shuffle( $posts_by_blog );
         }
-        // Display thumbnails?
+        // Display thumbnails
         if( $settings->display_thumbnail == 'yes' ) {
             // Thumbnail parameters
             $thumbnail_options = array(
@@ -768,7 +769,7 @@ class NLPosts_Core {
      *      'shortcodes'    => 'yes',                   // Yes: Execute shortcodes. No: Strip them.
      *      'keeptags'      => 'no',                    // Yes: Keep HTML tags. No: Strip them.
      *      'linebreaks'    => 'no',                    // Yes: Convert new lines to line-breaks. No: Remove new lines.
-     *      'trunc_el'      => '&raquo;',               // Truncation element, ellipsis by default.
+     *      'trunc_el'      => 'ellipsis',              // Truncation element, ellipsis by default.
      *      'limit'         => 55,                      // Excerpt lenght in number of words.
      *      'link'          => 'Read more',             // Link title to read the full entry, set to none to omit links.
      * );
@@ -1193,7 +1194,7 @@ class NLPosts_Core {
                     $thumbnails = $thumbnail_obj->thumbnail( $thumbnail_parameters );
                 }
             } else
-                // ACF Library has not been loaded
+                // ACF Library not loaded
                 return false;
         }
         // Return thumbnails
