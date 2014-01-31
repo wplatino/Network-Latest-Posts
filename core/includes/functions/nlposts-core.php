@@ -35,7 +35,24 @@ class NLPosts_Core {
     /**
      * Constructor
      *
-     * @param array $default Default parameters
+     * Default parameters can be overriden using
+     * WordPress pre-filter functions.
+     *
+     * To override default options use the
+     * nlposts_custom_default_parameters filter.
+     *
+     * Example:
+     * 1.- Create a custom function:
+     *      function my_custom_parameters() {
+     *          $default = array(
+     *              'cache_results' => 'yes',
+     *              'cache_time'    => 12*12*60,
+     *          );
+     *          return $default;
+     *      }
+     * 2.- Pre-filter function:
+     *      add_filter( 'nlposts_custom_default_parameters', 'my_custom_parameters' );
+     *
      * @return array $default Default parameters
      */
     public function NLPosts_Core() {
@@ -504,6 +521,7 @@ class NLPosts_Core {
             // Blog ID
             $blog_id = $blog_info[$counter]['id'];
             $blog_ids[] = $blog_id;
+            // Blog Data
             $blog_data[$blog_id] = array(
                 'blog_id'            => $blog_info[$counter]['id'],
                 'blog_name'          => $blog_info[$counter]['name'],
@@ -513,7 +531,7 @@ class NLPosts_Core {
                 'blog_registered'    => $blog_info[$counter]['registered'],
                 'blog_last_updated'  => $blog_info[$counter]['last_updated'],
             );
-            // Array ID
+            // Array ID Sorting
             if( $settings->sort_blogs_by == 'registered' )
                 $id = strtotime( $blog_data[$blog_id]['blog_registered'] ).$blog_id;
             else
@@ -535,9 +553,9 @@ class NLPosts_Core {
                     in_array( $blog_id, $tag_exclude_from )         ||
                     in_array( $blog_id, $tag_include_from )
                 ) {
-                    // Posts to exclude?
+                    // Posts to exclude
                     $posts_options = array_merge( $posts_options, $posts_options_exclude );
-                    // Posts to include?
+                    // Posts to include
                     if( in_array( $blog_id, $post_include_from ) )
                         $posts_options = array_merge( $posts_options, $posts_options_include );
                     // Switch to blog
@@ -581,7 +599,6 @@ class NLPosts_Core {
                 // Restore current blog
                 restore_current_blog();
             }
-
             // Merge blog data with posts
             $posts[$id] = array_merge( $blog_data[$blog_id], $posts[$id] );
         }
@@ -1182,7 +1199,9 @@ class NLPosts_Core {
             // Check if ACF has been loaded
             if( NLP_ACF == 'yes' ) {
                 if( function_exists( 'get_field' ) ) {
+                    // Advanced Custom Field Object
                     $thumbnail_obj = new NLPosts_ACF();
+                    // Set Parameters
                     $thumbnail_parameters = array(
                         'blog_ids'              => $parameters['blog_id'],
                         'post_ids'              => $parameters['post_id'],
@@ -1191,6 +1210,7 @@ class NLPosts_Core {
                         'thumbnail_service'     => $parameters['thumbnail_service'],
                         'thumbnail_parameters'  => $parameters['thumbnail_parameters'],
                     );
+                    // Get Thumbnails
                     $thumbnails = $thumbnail_obj->thumbnail( $thumbnail_parameters );
                 }
             } else
@@ -1208,35 +1228,49 @@ class NLPosts_Core {
      * nlposts_custom_author_data.
      *
      * Default options are:
-     *      'user_login'            => 'no',
-     *      'user_pass'             => 'no',
-     *      'user_nicename'         => 'yes',
-     *      'user_email'            => 'yes',
-     *      'user_url'              => 'no',
-     *      'user_registered'       => 'no',
-     *      'user_activation_key'   => 'no',
-     *      'user_status'           => 'no',
-     *      'display_name'          => 'yes',
-     *      'nickname'              => 'yes',
-     *      'first_name'            => 'no',
-     *      'last_name'             => 'no',
-     *      'description'           => 'no',
-     *      'jabber'                => 'no',
-     *      'aim'                   => 'no',
-     *      'yim'                   => 'no',
-     *      'user_level'            => 'no',
-     *      'user_firstname'        => 'no',
-     *      'user_lastname'         => 'no',
-     *      'rich_editing'          => 'no',
-     *      'comment_shortcuts'     => 'no',
-     *      'admin_color'           => 'no',
-     *      'plugins_per_page'      => 'no',
-     *      'plugins_last_view'     => 'no',
-     *      'ID'                    => $post[$count]->post_author,
-     *      'display_avatar'        => $settings->author_image,
-     *      'avatar_size'           => $settings->author_image_size,
-     *      'avatar_default'        => $settings->author_image_default,
-     *      'blog_id'               => $post['blog_id'],
+     *      'user_login'            => 'no'
+     *      'user_pass'             => 'no'
+     *      'user_nicename'         => 'yes'
+     *      'user_email'            => 'yes'
+     *      'user_url'              => 'no'
+     *      'user_registered'       => 'no'
+     *      'user_activation_key'   => 'no'
+     *      'user_status'           => 'no'
+     *      'display_name'          => 'yes'
+     *      'nickname'              => 'yes'
+     *      'first_name'            => 'no'
+     *      'last_name'             => 'no'
+     *      'description'           => 'no'
+     *      'jabber'                => 'no'
+     *      'aim'                   => 'no'
+     *      'yim'                   => 'no'
+     *      'user_level'            => 'no'
+     *      'user_firstname'        => 'no'
+     *      'user_lastname'         => 'no'
+     *      'rich_editing'          => 'no'
+     *      'comment_shortcuts'     => 'no'
+     *      'admin_color'           => 'no'
+     *      'plugins_per_page'      => 'no'
+     *      'plugins_last_view'     => 'no'
+     *      'ID'                    => $post[$count]->post_author
+     *      'display_avatar'        => $settings->author_image
+     *      'avatar_size'           => $settings->author_image_size
+     *      'avatar_default'        => $settings->author_image_default
+     *      'blog_id'               => $post['blog_id']
+     *
+     * To override defaults use the nlposts_custom_author_data filter.
+     *
+     * Example:
+     * 1.- Create a custom function:
+     *      function my_custom_author() {
+     *          $author_settings = array(
+     *              'user_registered'   => 'yes',
+     *              'description'       => 'yes',
+     *          );
+     *          return $author_settings;
+     *      }
+     * 2.- Pre-filter function:
+     *      add_filter( 'nlposts_custom_author_data', 'my_custom_author' );
      *
      * @param array $parameters 
      * @return array $author_info containing author profile data.
@@ -1268,7 +1302,7 @@ class NLPosts_Core {
                     // Set data
                     $author_info[$field_name] = $author_data->$field_name;
                 }
-                // Avatar
+                // Set Avatar
                 if( $field_name == 'display_avatar' ) {
                     $author_info[$field_name] = $author_data->avatar;
                 }
@@ -1285,7 +1319,8 @@ class NLPosts_Core {
     /**
      * Do Shortcode
      *
-     * Allows to publicly access shortcode function
+     * Allows to publicly access shortcode function.
+     *
      * @param array $parameters Custom Network Latest Posts Evolution settings
      * @return callable $this->nlposts_shortcode() Loads nlposts_shortcode protected function
      */
