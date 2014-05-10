@@ -106,6 +106,7 @@ $html5 = new NLPosts_HTML();
 ?>
 <div class="content">
     <?php
+        
         foreach( $posts as $post ) {
             if( is_array( $post ) ) {
                 if( !empty( $post[0]->post_title ) ) {

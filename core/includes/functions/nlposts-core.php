@@ -604,8 +604,7 @@ class NLPosts_Core {
             // Merge blog data with posts
             $posts[$id] = array_merge( $blog_data[$blog_id], $posts[$id] );
         }
-
-        // Loop posts
+        // Loop through posts
         foreach( $posts as $post ) {
             // Ignore blog info
             for( $count = 0; $count < ( count( $post ) - 7 ); $count++ ) {
@@ -672,6 +671,14 @@ class NLPosts_Core {
                 }
                 // Switch to Blog
                 switch_to_blog( $post['blog_id'] );
+                    // Sticky?
+                    if( $settings->post_keep_sticky == 'yes' ) {
+                        if( is_sticky( $post[$count]->ID ) ) {
+                            $post[$count]->sticky = 'yes';
+                        } else {
+                            $post[$count]->sticky = 'no';
+                        }
+                    }
                     // Post Language
                     // WPML Compatibility
                     if( function_exists( 'wpml_get_language_information' ) ) {
@@ -730,21 +737,25 @@ class NLPosts_Core {
                 krsort( $posts_without_blog );
             else
                 ksort( $posts_without_blog );
-            // Push thumbnails to posts
-            foreach( $thumbnails as $key_blog => $key_post ) {
-                foreach( $key_post as $key_id => $key_image ) {
-                    // Push each thumbnail to their corresponding post
-                    $posts_without_blog[ $keys_ids[ $key_blog.'-'.$key_id ] ]->thumbnail = $key_image;
+            // Display thumbnails
+            if( $settings->display_thumbnail == 'yes' ) {
+                // Push thumbnails to posts
+                foreach( $thumbnails as $key_blog => $key_post ) {
+                    foreach( $key_post as $key_id => $key_image ) {
+                        // Push each thumbnail to their corresponding post
+                        $posts_without_blog[ $keys_ids[ $key_blog.'-'.$key_id ] ]->thumbnail = $key_image;
+                    }
                 }
             }
             // Keep results in Cache
-            if( $settings->cache_results == 'yes' ) 
+            if( $settings->cache_results == 'yes' ) {
                 // Cache results using WordPress Transients
                 if( false === ( $posts_transient = get_transient( NLP_TRANSIENT.$settings->instance_id ) ) )
                     // Cache data
                     set_transient( NLP_TRANSIENT.$settings->instance_id, $posts_without_blog, $settings->cache_time );
                 else
                     return $posts_transient;
+            }
             // Return post data
             return $posts_without_blog;
         } else {
@@ -753,6 +764,7 @@ class NLPosts_Core {
                 krsort( $posts_by_blog );
             else
                 ksort( $posts_by_blog );
+            // Display thumbnails
             if( $settings->display_thumbnail == 'yes' ) {
                 // Push thumbnails to posts listed by blog
                 foreach( $posts_by_blog as $posts_thumb ) {
@@ -763,13 +775,14 @@ class NLPosts_Core {
                 }
             }
             // Keep results in Cache
-            if( $settings->cache_results == 'yes' ) 
+            if( $settings->cache_results == 'yes' ) {
                 // Cache results using WordPress Transients
                 if( false === ( $posts_transient = get_transient( NLP_TRANSIENT.$settings->instance_id ) ) )
                     // Cache data
                     set_transient( NLP_TRANSIENT.$settings->instance_id, $posts_by_blog, $settings->cache_time );
                 else
                     return $posts_transient;
+            }
             // Return post data
             return $posts_by_blog;
         }
