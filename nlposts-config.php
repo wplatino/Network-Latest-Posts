@@ -74,7 +74,7 @@ define( 'NLP_THEMES_USER_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEME_USERN .
  * Includes lots of new elements, it's been rewritten to
  * improve quality and flexibility. That's why there is now
  * a deprecated mode which allow users to keep using features
- * present till version 3.5.4.
+ * present till version 3.5.6.
  *
  * This is a solution to avoid breaking websites, only those who
  * are well aware of new features present in version 4.0 are
@@ -146,10 +146,17 @@ if( NLP_DEPRECATED != 'yes' ) {
 require_once NLP_FUNCTIONS  . 'nlposts-options.php';
 require_once NLP_LIBRARIES  . 'nlposts-phrases.php';
 /**
- * Made in Venezuela by L'Elite
- * @link http://laelite.info
+ * Made in Venezuela by 
  *
- * Logos by José de Jesús SAYAGO
- * @link http://josedejesus.me
+ * José Luis SAYAGO ROJAS
+ *      Web Consultant & e-Marketing Specialist
+ *      @link http://josesayago.com/blog/
+ *
+ * José de Jesús SAYAGO ROJAS
+ *      Graphic Designer
+ *      @link http://josedejesus.me
+ *
+ * L'Elite
+ *      @link http://laelite.info
  */
 ?>
