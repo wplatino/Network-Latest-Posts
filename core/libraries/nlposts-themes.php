@@ -51,7 +51,7 @@ class NLPosts_Themes {
         // User theme
         else
             // Load index template
-            include_once( NLP_THEMES_USER . NLP_ACTIVE_THEME . '/index.php' );
+            include_once( NLP_THEMES_PATH . NLP_ACTIVE_THEME . '/index.php' );
     }
     /**
      * Load Theme as Homepage
@@ -66,7 +66,7 @@ class NLPosts_Themes {
             // User theme
             else
                 // Load index template
-                include_once( NLP_THEMES_USER . NLP_ACTIVE_THEME . '/home.php' );
+                include_once( NLP_THEMES_PATH . NLP_ACTIVE_THEME . '/home.php' );
             // Close the door
             exit();
         }
@@ -90,7 +90,7 @@ class NLPosts_Themes {
             // Register style
             wp_register_style( 
                 NLP_ACTIVE_THEME . '-style', 
-                NLP_THEMES_USER_REL . NLP_ACTIVE_THEME . '/style.css',
+                NLP_THEMES_PATH_REL . NLP_ACTIVE_THEME . '/style.css',
                 '', 
                 NLP_VERSION, 
                 'all' 

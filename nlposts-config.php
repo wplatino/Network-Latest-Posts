@@ -35,39 +35,39 @@
  * Absolute Paths
  */
 $wp_upload_dir = wp_upload_dir();
-define( 'NLP_DIR',          '/'.basename( dirname( __FILE__ ) ).'/',                true );
-define( 'NLP_NAME',         'Network Latest Posts',                                 true );
-define( 'NLP_VERSION',      '4.0',                                                  true );
-define( 'NLP_TEXTDOMAIN',   'trans-nlp',                                            true );
-define( 'NLP_TRANSIENT',    'nlposts_data_',                                        true );
-define( 'NLP_ROOT',         dirname( __FILE__ ),                                    true );
-define( 'NLP_THEMES',       NLP_ROOT . '/themes/',                                  true );
-define( 'NLP_THEME_USERN', 'nlposts_themes',                                        true );
-define( 'NLP_THEMES_USER',  $wp_upload_dir['basedir'].'/'. NLP_THEME_USERN .'/',    true );
-define( 'NLP_CORE',         NLP_ROOT . '/core/',                                    true );
-define( 'NLP_INCLUDES',     NLP_CORE . 'includes/',                                 true );
-define( 'NLP_FUNCTIONS',    NLP_CORE . 'includes/functions/',                       true );
-define( 'NLP_STYLES',       NLP_CORE . 'includes/styles/',                          true );
-define( 'NLP_LIBRARIES',    NLP_CORE . 'libraries/',                                true );
-define( 'NLP_JS',           NLP_CORE . 'libraries/js/',                             true );
-define( 'NLP_LANGUAGES',    NLP_CORE . 'languages/',                                true );
-define( 'NLP_ACTIVE_THEME', get_option( 'nlposts_theme', 'evolution', true ),       true );
-define( 'NLP_HOMEPAGE',     get_option( 'nlposts_homepage', 'yes', true ),          true );
-define( 'NLP_DEPRECATED',   get_option( 'nlposts_deprecated', 'yes', true ),        true );
-define( 'NLP_ACF',          get_option( 'nlposts_load_acf', 'yes', true ),          true );
-define( 'NLP_WOO',          get_option( 'nlposts_load_woo', 'yes', true ),          true );
+define( 'NLP_DIR',              '/'.basename( dirname( __FILE__ ) ).'/',                true );
+define( 'NLP_NAME',             'Network Latest Posts',                                 true );
+define( 'NLP_VERSION',          '4.0',                                                  true );
+define( 'NLP_TEXTDOMAIN',       'trans-nlp',                                            true );
+define( 'NLP_TRANSIENT',        'nlposts_data_',                                        true );
+define( 'NLP_ROOT',             dirname( __FILE__ ),                                    true );
+define( 'NLP_THEMES',           NLP_ROOT . '/themes/',                                  true );
+define( 'NLP_THEMES_FOLDER',    'nlposts_themes',                                       true );
+define( 'NLP_THEMES_PATH',      $wp_upload_dir['basedir'].'/'. NLP_THEMES_FOLDER .'/',  true );
+define( 'NLP_CORE',             NLP_ROOT . '/core/',                                    true );
+define( 'NLP_INCLUDES',         NLP_CORE . 'includes/',                                 true );
+define( 'NLP_FUNCTIONS',        NLP_CORE . 'includes/functions/',                       true );
+define( 'NLP_STYLES',           NLP_CORE . 'includes/styles/',                          true );
+define( 'NLP_LIBRARIES',        NLP_CORE . 'libraries/',                                true );
+define( 'NLP_JS',               NLP_CORE . 'libraries/js/',                             true );
+define( 'NLP_LANGUAGES',        NLP_CORE . 'languages/',                                true );
+define( 'NLP_ACTIVE_THEME',     get_option( 'nlposts_theme', 'evolution', true ),       true );
+define( 'NLP_HOMEPAGE',         get_option( 'nlposts_homepage', 'yes', true ),          true );
+define( 'NLP_DEPRECATED',       get_option( 'nlposts_deprecated', 'yes', true ),        true );
+define( 'NLP_ACF',              get_option( 'nlposts_load_acf', 'yes', true ),          true );
+define( 'NLP_WOO',              get_option( 'nlposts_load_woo', 'yes', true ),          true );
 /**
  * Relative Paths
  */
-define( 'NLP_CORE_REL',         'core/',                                            true );
-define( 'NLP_INCLUDES_REL',     'includes/',                                        true );
-define( 'NLP_FUNCTIONS_REL',    'includes/functions/',                              true );
-define( 'NLP_STYLES_REL',       'includes/styles/',                                 true );
-define( 'NLP_LIBRARIES_REL',    'libraries/',                                       true );
-define( 'NLP_JS_REL',           'libraries/js/',                                    true );
-define( 'NLP_LANGUAGES_REL',    'languages/',                                       true );
-define( 'NLP_THEMES_REL',       'themes/',                                          true );
-define( 'NLP_THEMES_USER_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEME_USERN .'/',true );
+define( 'NLP_CORE_REL',         'core/',                                                true );
+define( 'NLP_INCLUDES_REL',     'includes/',                                            true );
+define( 'NLP_FUNCTIONS_REL',    'includes/functions/',                                  true );
+define( 'NLP_STYLES_REL',       'includes/styles/',                                     true );
+define( 'NLP_LIBRARIES_REL',    'libraries/',                                           true );
+define( 'NLP_JS_REL',           'libraries/js/',                                        true );
+define( 'NLP_LANGUAGES_REL',    'languages/',                                           true );
+define( 'NLP_THEMES_REL',       'themes/',                                              true );
+define( 'NLP_THEMES_PATH_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEMES_FOLDER .'/', true );
 /**
  * Network Latest Posts v4.0
  *
@@ -129,11 +129,11 @@ if( NLP_DEPRECATED != 'yes' ) {
     /**
      * Set Upload Folder
      */
-    if( !is_dir( NLP_THEMES_USER ) ) {
+    if( !is_dir( NLP_THEMES_PATH ) ) {
         // Check if folder exists
-        if ( !is_dir( NLP_THEMES_USER ) ) {
+        if ( !is_dir( NLP_THEMES_PATH ) ) {
             // Create folder
-            wp_mkdir_p( NLP_THEMES_USER );
+            wp_mkdir_p( NLP_THEMES_PATH );
         }
     }
 } else {
