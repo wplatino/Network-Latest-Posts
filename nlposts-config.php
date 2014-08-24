@@ -67,7 +67,7 @@ define( 'NLP_LIBRARIES_REL',    'libraries/',                                   
 define( 'NLP_JS_REL',           'libraries/js/',                                        true );
 define( 'NLP_LANGUAGES_REL',    'languages/',                                           true );
 define( 'NLP_THEMES_REL',       'themes/',                                              true );
-define( 'NLP_THEMES_PATH_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEMES_FOLDER .'/', true );
+define( 'NLP_THEMES_PATH_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEMES_FOLDER .'/',  true );
 /**
  * Network Latest Posts v4.0
  *
@@ -80,10 +80,12 @@ define( 'NLP_THEMES_PATH_REL',  $wp_upload_dir['baseurl'].'/'. NLP_THEMES_FOLDER
  * are well aware of new features present in version 4.0 are
  * encouraged to disable deprecated mode through the options panel.
  */
+// Load HTML Library
 require_once NLP_LIBRARIES  . 'nlposts-html.php';
+// Load +4.0 libraries
 if( NLP_DEPRECATED != 'yes' ) {
     /**
-     * System Assets
+     * Plugin Libraries
      */
     require_once NLP_FUNCTIONS  . 'nlposts-core.php';
     require_once NLP_FUNCTIONS  . 'nlposts-widgets.php';
@@ -91,6 +93,7 @@ if( NLP_DEPRECATED != 'yes' ) {
     require_once NLP_LIBRARIES  . 'nlposts-placeholders.php';
     require_once NLP_LIBRARIES  . 'nlposts-themes.php';
     require_once NLP_THEMES     . 'nlposts-theme-loader.php';
+    // Load Advanced Custom Fields (ACF)
     if( NLP_ACF == 'yes' ) {
         /**
          * Check if Advanced Custom Fields plugin is installed
@@ -108,6 +111,7 @@ if( NLP_DEPRECATED != 'yes' ) {
             }
         }
     }
+    // Load WooCommerce
     if( NLP_WOO == 'yes' ) {
         /**
          * Check if WooCommerce plugin is installed
@@ -136,6 +140,7 @@ if( NLP_DEPRECATED != 'yes' ) {
             wp_mkdir_p( NLP_THEMES_PATH );
         }
     }
+// Deprecated mode
 } else {
     /**
      * Enter legacy mode
@@ -143,7 +148,9 @@ if( NLP_DEPRECATED != 'yes' ) {
     require_once( NLP_ROOT . '/deprecated/network-latest-posts.php' );
     require_once( NLP_ROOT . '/deprecated/network-latest-posts-widget.php' );
 }
+// Load options
 require_once NLP_FUNCTIONS  . 'nlposts-options.php';
+// Load textdomain and strings
 require_once NLP_LIBRARIES  . 'nlposts-phrases.php';
 /**
  * Made in Venezuela by 
