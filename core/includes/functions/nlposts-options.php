@@ -220,7 +220,7 @@ class NLPosts_Options {
         // If data exists
         if( !empty( $nlp_transients ) )
             // Return data
-            if( $wpdb->query( "DELETE option_name FROM $wpdb->options WHERE option_name LIKE '_transient_".NLP_TRANSIENT."%' " ) )
+            if( $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_transient_".NLP_TRANSIENT."%' " ) )
                 return true;
             else
                 return false;
