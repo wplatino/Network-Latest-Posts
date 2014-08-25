@@ -173,21 +173,26 @@ class NLPosts_Options {
     /**
      * Save Options
      *
-     * @var string option and option name
+     * @param string $option Option value
+     * @param string $option_name Option name
      */
     function nlposts_save_option( $option, $option_name ) {
+        // Clean variables
         $option = htmlspecialchars( trim( $option ) );
         $option_name = htmlspecialchars( $option_name );
+        // Verify if option exists
         if( get_option( $option_name ) === false ) {
+            // Create option
             add_option( $option_name, $option );
         } elseif( get_option( $option_name ) != $option ) {
+            // Update option
             update_option( $option_name, $option );
         }
     }
     /**
      * Get Transients
      *
-     * @return array transient data
+     * @return array $nlp_transients Data
      */
     public function nlposts_transient_data() {
         // WordPress Global Database Object
@@ -198,6 +203,27 @@ class NLPosts_Options {
         if( !empty( $nlp_transients ) )
             // Return data
             return $nlp_transients;
+        else
+            // Nothing
+            return false;
+    }
+    /**
+     * Remove Transients
+     *
+     * @return bool true/false
+     */
+    public function nlposts_transient_remove() {
+        // WordPress Global Database Object
+        global $wpdb;
+        // Get Transients
+        $nlp_transients = $wpdb->get_results( "SELECT DISTINCT option_name FROM $wpdb->options WHERE option_name LIKE '_transient_".NLP_TRANSIENT."%' " );
+        // If data exists
+        if( !empty( $nlp_transients ) )
+            // Return data
+            if( $wpdb->query( "DELETE option_name FROM $wpdb->options WHERE option_name LIKE '_transient_".NLP_TRANSIENT."%' " ) )
+                return true;
+            else
+                return false;
         else
             // Nothing
             return false;

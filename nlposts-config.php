@@ -177,9 +177,9 @@ class NLP_Config {
      */
     private function nlposts_file_exists( $file_path ) {
         // Get file path
-        $file_path = '/'.htmlspecialchars( $file_path );
+        $file_path = htmlspecialchars( $file_path );
         // Check if file exists in plugins directory
-        if( file_exists( WP_PLUGIN_DIR . $file_path ) ) {
+        if( file_exists( WP_PLUGIN_DIR . '/' . $file_path ) ) {
             // Include WordPress Plugin functions
             include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
             // Check if plugin is active

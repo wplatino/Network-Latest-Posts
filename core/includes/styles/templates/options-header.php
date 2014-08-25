@@ -5,6 +5,8 @@
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
  * @internal options-header.php
+ * @uses NLPosts_Phrases() found in libraries/nlposts-phrases.php
+ * @uses NLPosts_HTML() found in libraries/nlposts-html.php
  *
  * Options : Header
  *      Header options wrapper.

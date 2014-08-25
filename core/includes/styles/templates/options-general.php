@@ -6,6 +6,9 @@
  * @author José SAYAGO <jose.sayago@laelite.info>
  * @internal options-general.php
  *
+ * @uses NLP_Config::NLP_Config() found in nlposts-config.php
+ * @uses NLPosts_Options::nlposts_save_option() found in functions/nlposts-options.php
+ *
  * Options : General Settings
  *      General settings options.
  */
@@ -46,20 +49,21 @@ if( isset( $_POST['save_options'] ) ) {
     foreach( $options as $option_name => $option ) {
         if( $_POST['save_options'] == true ) {
             if( !empty( $option ) )
+                /**
+                 * Register option
+                 */
                 $option_obj->nlposts_save_option( $option, $option_name );
             else {
                 if( $option_name == 'nlposts_deprecated'    )   $option_obj->nlposts_save_option( 'no', $option_name );
                 if( $option_name == 'nlposts_load_acf'      )   $option_obj->nlposts_save_option( 'no', $option_name );
                 if( $option_name == 'nlposts_load_woo'      )   $option_obj->nlposts_save_option( 'no', $option_name );
             }
-            // Reload page
-            echo "
-                <script type='text/javascript'>
-                    //<![CDATA[
-                    document.location.reload( true );
-                    //]]>
-                </script>
-            ";
+            /**
+             * Reload configuration
+             */
+            $exec_config = new NLP_Config();
+            // Reload config
+            $exec_config->NLP_Config();
         }
     }
 }
