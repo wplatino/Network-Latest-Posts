@@ -48,6 +48,11 @@ class NLPosts_Placeholders {
      * Placeholder
      *
      * Returns placeholder image along with parameters
+     *
+     * This function provides a hookable action,
+     * use nlposts_custom_placeholder_image_params in
+     * functions.php file to override image parameters.
+     *
      * @param string $service Placeholder service name
      * @param array $parameters Placeholder parameters
      * @return string $url URL requesting images by parameters to placeholder services
@@ -60,10 +65,10 @@ class NLPosts_Placeholders {
         // HTML object
         $html_tag   = new NLPosts_HTML();
         // Image parameters
-        $image_parameters   = array(
+        $image_parameters   = apply_filters( 'nlposts_custom_placeholder_image_params' array(
             'src'   => $url,
             'class' => 'attachment- wp-post-image',
-        );
+        ) );
         // Image tag
         $thumbnail  = $html_tag->image_tag( $image_parameters );
         // Return thumbnail

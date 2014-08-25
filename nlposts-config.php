@@ -34,7 +34,11 @@
 /**
  * Absolute Paths
  */
+// Upload directory path
 $wp_upload_dir = wp_upload_dir();
+/**
+ * Full Paths
+ */
 define( 'NLP_DIR',              '/'.basename( dirname( __FILE__ ) ).'/',                true );
 define( 'NLP_NAME',             'Network Latest Posts',                                 true );
 define( 'NLP_VERSION',          '4.0',                                                  true );
