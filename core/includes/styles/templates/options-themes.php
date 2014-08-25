@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file options-general.php
+ * @internal options-general.php
  *
  * Options : Theme Uploader
  *      Upload themes to be used by the plugin.
  */
-/*  @section LICENSE
+/*  LICENSE
     
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
@@ -49,7 +49,7 @@ function nlposts_upload_dir( $upload ) {
 /**
  * Remove directory recursively
  */
-//Delete folder function 
+// Delete folder function 
 function deleteDirectory( $dir ) { 
     if ( !file_exists( $dir ) ) return true; 
     if ( !is_dir( $dir ) || is_link( $dir ) ) return unlink( $dir ); 

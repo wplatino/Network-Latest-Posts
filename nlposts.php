@@ -12,6 +12,7 @@ Author URI: http://laelite.info/
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
+ * @version 4.0
  * @internal nlposts.php
  *
  * Root
@@ -41,11 +42,13 @@ Author URI: http://laelite.info/
  */
 // Load Configuration File
 require_once( 'nlposts-config.php' );
+$exec_config = new NLP_Config();
+$exec_config->NLP_Config();
 // Load Shortcodes for Version +4.0
 if( NLP_DEPRECATED != 'yes' ) {
     /**
      * Create a hook for Network Latest 
-     * Posts Evolution Shortcode
+     * Posts Shortcode
      */
     add_shortcode( 'nlposts', create_function( '$parameters', '
         // Create a class object

@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file options-header.php
+ * @internal options-header.php
  *
  * Options : Header
  *      Header options wrapper.
  */
-/*  @section LICENSE
+/*  LICENSE
     
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

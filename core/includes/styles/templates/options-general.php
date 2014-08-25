@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file options-general.php
+ * @internal options-general.php
  *
  * Options : General Settings
  *      General settings options.
  */
-/*  @section LICENSE
+/*  LICENSE
     
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
@@ -32,26 +32,35 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 include_once( 'options-header.php' );
-@$option_obj = new NLPosts_Options();
-// Get Params
-@$options = array(
-    'nlposts_deprecated'    => @htmlspecialchars( $_POST['nlposts_deprecated'] ),
-    'nlposts_theme'         => @htmlspecialchars( $_POST['nlposts_theme'] ),
-    'nlposts_homepage'      => @htmlspecialchars( $_POST['nlposts_homepage'] ),
-    'nlposts_load_acf'      => @htmlspecialchars( $_POST['nlposts_load_acf'] ),
-    'nlposts_load_woo'      => @htmlspecialchars( $_POST['nlposts_load_woo'] )
-);
-// Save params
-foreach( $options as $option_name => $option ) {
-    if( $_POST['save_options'] == true ) {
-        if( !empty( $option ) )
-            $option_obj->nlposts_save_option( $option, $option_name );
-        else {
-            if( $option_name == 'nlposts_deprecated' ) $option_obj->nlposts_save_option( 'no', $option_name );
-            if( $option_name == 'nlposts_load_acf' ) $option_obj->nlposts_save_option( 'no', $option_name );
-            if( $option_name == 'nlposts_load_woo' ) $option_obj->nlposts_save_option( 'no', $option_name );
+$option_obj = new NLPosts_Options();
+if( isset( $_POST['save_options'] ) ) {
+    // Get Params
+    $options = array(
+        'nlposts_deprecated'    => htmlspecialchars( $_POST['nlposts_deprecated'] ),
+        'nlposts_theme'         => htmlspecialchars( $_POST['nlposts_theme'] ),
+        'nlposts_homepage'      => htmlspecialchars( $_POST['nlposts_homepage'] ),
+        'nlposts_load_acf'      => htmlspecialchars( $_POST['nlposts_load_acf'] ),
+        'nlposts_load_woo'      => htmlspecialchars( $_POST['nlposts_load_woo'] )
+    );
+    // Save params
+    foreach( $options as $option_name => $option ) {
+        if( $_POST['save_options'] == true ) {
+            if( !empty( $option ) )
+                $option_obj->nlposts_save_option( $option, $option_name );
+            else {
+                if( $option_name == 'nlposts_deprecated'    )   $option_obj->nlposts_save_option( 'no', $option_name );
+                if( $option_name == 'nlposts_load_acf'      )   $option_obj->nlposts_save_option( 'no', $option_name );
+                if( $option_name == 'nlposts_load_woo'      )   $option_obj->nlposts_save_option( 'no', $option_name );
+            }
+            // Reload page
+            echo "
+                <script type='text/javascript'>
+                    //<![CDATA[
+                    document.location.reload( true );
+                    //]]>
+                </script>
+            ";
         }
-        header('Location:'.$_SERVER['REQUEST_URI']);
     }
 }
 ?>
@@ -92,7 +101,7 @@ foreach( $options as $option_name => $option ) {
             <input type="checkbox" class="js-switch" name="nlposts_load_acf" value="yes" 
             <?php if( get_option( 'nlposts_load_acf' ) === false || get_option( 'nlposts_load_acf' ) === 'yes' ) { ?> 
             checked 
-            <?php } ?> />
+            <?php } ?> <?php if( !NLP_ACF_INSTALLED ) { ?> disabled <?php } ?> />
         </p>
         <p>
             <label for="nlposts_load_woo"><?php echo $phrases->nlposts_options_phrase()->option_nlposts_load_woo; ?></label>
@@ -101,7 +110,7 @@ foreach( $options as $option_name => $option ) {
             <input type="checkbox" class="js-switch" name="nlposts_load_woo" value="yes" 
             <?php if( get_option( 'nlposts_load_woo' ) === false || get_option( 'nlposts_load_woo' ) === 'yes' ) { ?> 
             checked 
-            <?php } ?> />
+            <?php } ?> <?php if( !NLP_WOOCOMMERCE_INSTALLED ) { ?> disabled <?php } ?> />
         </p>
 
         <p>

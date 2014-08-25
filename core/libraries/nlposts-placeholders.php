@@ -65,7 +65,7 @@ class NLPosts_Placeholders {
         // HTML object
         $html_tag   = new NLPosts_HTML();
         // Image parameters
-        $image_parameters   = apply_filters( 'nlposts_custom_placeholder_image_params' array(
+        $image_parameters   = apply_filters( 'nlposts_custom_placeholder_image_params', array(
             'src'   => $url,
             'class' => 'attachment- wp-post-image',
         ) );

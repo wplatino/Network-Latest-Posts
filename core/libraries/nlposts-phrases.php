@@ -71,6 +71,7 @@ class NLPosts_Phrases {
      * present in the Dashboard Panel
      */
     public function nlposts_options_phrase() {
+        $x = 0;
         // Phrases
         $options = apply_filters( 'nlposts_custom_options_phrase', array(
             'dashboard_panel'           => __( 'Network Latest Posts | Dashboard',                  NLP_TEXTDOMAIN ),
