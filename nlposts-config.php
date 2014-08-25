@@ -135,7 +135,7 @@ class NLP_Config {
                  * Check if WooCommerce plugin is installed
                  */
                 if( NLP_WOOCOMMERCE_INSTALLED ) {
-                    require_once WP_PLUGIN_DIR . 'woocommerce/woocommerce.php';
+                    require_once WP_PLUGIN_DIR . '/woocommerce/woocommerce.php';
                     require_once NLP_LIBRARIES . 'nlposts-woo.php';
                 } else {
                     /**
@@ -179,10 +179,17 @@ class NLP_Config {
         // Get file path
         $file_path = htmlspecialchars( $file_path );
         // Check if file exists in plugins directory
-        if( file_exists( WP_PLUGIN_DIR . $file_path ) )
-            return true;
-        else
+        if( file_exists( WP_PLUGIN_DIR . '/' . $file_path ) ) {
+            // Include WordPress Plugin functions
+            include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+            // Check if plugin is active
+            if( is_plugin_active( $file_path ) )
+                return true;
+            else
+                return false;
+        } else {
             return false;
+        }
     }
 }
 /**
