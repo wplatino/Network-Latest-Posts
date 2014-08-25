@@ -70,7 +70,13 @@ if( isset( $_POST['save_options'] ) ) {
 ?>
 <div class="nlposts-options-header">
     <div id="nlposts-options-icon"></div>
-    <h2><?php echo $phrases->nlposts_options_phrase()->dashboard_general_panel;  ?></h2>
+    <?php 
+        echo $html5->header_tag( array(
+            'data'      => $phrases->nlposts_options_phrase()->dashboard_general_panel,
+            'structure' => 'h2',
+            'class'     => ''
+        ) );
+    ?>
 </div>
 
 <hr />
