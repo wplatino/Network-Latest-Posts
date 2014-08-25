@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts Evolution
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts-updates.php
+ * @internal nlposts-updates.php
  *
  * Updates 
  *      Checks L'Elite Store API for recent versions of this software.
  */
-/*  @section LICENSE
+/*  LICENSE
 
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

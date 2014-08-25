@@ -12,12 +12,12 @@ Author URI: http://laelite.info/
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts.php
+ * @internal nlposts.php
  *
  * Root
  *      Per aspera ad astra.
  */
-/*  @section LICENSE
+/*  LICENSE
 
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
@@ -39,7 +39,9 @@ Author URI: http://laelite.info/
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+// Load Configuration File
 require_once( 'nlposts-config.php' );
+// Load Shortcodes for Version +4.0
 if( NLP_DEPRECATED != 'yes' ) {
     /**
      * Create a hook for Network Latest 

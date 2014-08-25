@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts-widgets.php
+ * @internal nlposts-widgets.php
  *
  * Widgets
  *      Class for providing Widgets through the WordPress Dashboard.
  */
-/*  @section LICENSE
+/*  LICENSE
 
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts-html.php
+ * @internal nlposts-html.php
  *
  * HTML
  *      Class providing HTML tags to be embedded in other classes.
  */
-/*  @section LICENSE
+/*  LICENSE
     
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

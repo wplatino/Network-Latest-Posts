@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts-placeholders.php
+ * @internal nlposts-placeholders.php
  *
  * Placeholders
  *      Class providing services for placeholder images.
  */
-/*  @section LICENSE
+/*  LICENSE
     
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

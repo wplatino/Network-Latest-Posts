@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts-config.php
+ * @internal nlposts-config.php
  *
  * Configuration
  *      Default paths and pre-defined variables required by this software.
  */
-/*  @section LICENSE
+/*  LICENSE
 
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file index.php
+ * @internal index.php
  *
  * Index
  *      Main template file.
  */
-/*  @section LICENSE
+/*  LICENSE
 
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 
