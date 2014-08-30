@@ -1,5 +1,5 @@
 === Network Latest Posts ===
-Contributors: L'Elite
+Contributors: iluminatus
 Donate link: http://laelite.info
 Tags: recent posts, shortcode, widget, network, latest posts
 Requires at least: 3.0
