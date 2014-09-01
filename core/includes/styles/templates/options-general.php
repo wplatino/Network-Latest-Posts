@@ -167,7 +167,6 @@ if( isset( $_POST['save_options'] ) ) {
                 'class'     => 'nlp-back-link',
             ) );
         ?>
-
     </form>
 </div>
 <?php

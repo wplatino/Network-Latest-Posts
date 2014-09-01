@@ -32,6 +32,7 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 include_once( 'options-header.php' );
+$option_obj = new NLPosts_Options();
 ?>
 <div class="nlposts-options-header">
     <div id="nlposts-options-icon"></div>
@@ -111,7 +112,6 @@ include_once( 'options-header.php' );
     </div>
     <div class='nlposts-stats cache'>
         <?php
-            $option_obj = new NLPosts_Options();
             $transients = $option_obj->nlposts_transient_data();
             echo $html5->header_tag( array(
                 'data'      => $phrases->nlposts_options_phrase()->dashboard_cache,

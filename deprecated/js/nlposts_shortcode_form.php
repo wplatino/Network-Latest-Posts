@@ -4,12 +4,12 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @file nlposts_shortcode_form.php
+ * @internal nlposts_shortcode_form.php
  *
  * Shortcode Form
  *      TinyMCE shortcode form helper.
  */
-/*  @section LICENSE
+/*  LICENSE
 
     Copyright (C) 2007 - 2014  L'Elite de José SAYAGO
 

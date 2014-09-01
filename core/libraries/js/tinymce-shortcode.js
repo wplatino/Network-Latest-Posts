@@ -35,22 +35,25 @@
     // Set the plugin
     tinymce.create('tinymce.plugins.nlposts', {
         init : function(ed, url) {
+            var getUrl = url.split('/');
+            var nlpIcon = getUrl[0]+'//'+getUrl[2]+'/'+getUrl[3]+'/'+getUrl[4]+'/'+getUrl[5]+'/'+getUrl[6]+'/includes/styles/images/menu_icon.png';
+            var nlpShortcode = getUrl[0]+'//'+getUrl[2]+'/'+getUrl[3]+'/'+getUrl[4]+'/'+getUrl[5]+'/'+getUrl[6]+'/libraries/nlposts-shortcode.php';
             // Add this button to the TinyMCE editor
             ed.addButton('nlposts', {
                 // Button title
                 title : 'Network Latest Posts Shortcode',
                 // Button image
-                image : url+'/nlposts_button.png',
+                image : nlpIcon,
                 onclick : function() {
                     // Window size
                     var width = jQuery(window).width(), height = jQuery(window).height(), W = ( 720 < width ) ? 720 : width, H = ( height > 600 ) ? 600 : height;
                     W = W - 80;
-                    H = H - 84;
+                    H = H - 80;
                     tb_show( 'Network Latest Posts Shortcode', '#TB_inline?width=' + W + '&height=' + H + '&inlineId=nlposts-form' );
                     // Load form
                     jQuery(function(){
                         // Dynamic load
-                        jQuery('#TB_ajaxContent').load(url+'/nlposts_shortcode_form.php');
+                        jQuery('#TB_ajaxContent').load( nlpShortcode );
                     });
                 }
             });
