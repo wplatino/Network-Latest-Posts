@@ -109,6 +109,12 @@ class NLPosts_Phrases {
             'theme_deleted'             => __( 'Theme successfuly deleted.',                        NLP_TEXTDOMAIN ),
             'theme_not_deleted'         => __( 'Could not delete this theme. Try again.',           NLP_TEXTDOMAIN ),
             'cached_results'            => _n('%d element in cache.', '%d elements in cache.', $x,  NLP_TEXTDOMAIN ),
+            'shortcode_panel'           => __( 'Network Latest Posts | Shortcode',                  NLP_TEXTDOMAIN ),
+            'shortcode_tab1'            => __( 'General Settings',                                  NLP_TEXTDOMAIN ),
+            'shortcode_tab2'            => __( 'Posts',                                             NLP_TEXTDOMAIN ),
+            'shortcode_tab3'            => __( 'Pagination & Sorting',                              NLP_TEXTDOMAIN ),
+            'shortcode_tab4'            => __( 'Thumbnails',                                        NLP_TEXTDOMAIN ),
+            'shortcode_tab5'            => __( 'Styling',                                           NLP_TEXTDOMAIN ),
         ) );
         /**
          * WPML Support

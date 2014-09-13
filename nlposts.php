@@ -67,22 +67,28 @@ if ( is_admin() ) {
      * Add a NLPosts button to the TinyMCE editor
      * this will simplify the way it is used
      */
-    // TinyMCE button settings
-    function nlp_shortcode_button() {
-        if ( current_user_can('edit_posts') && current_user_can('edit_pages') ) {
-            add_filter('mce_external_plugins', 'nlp_shortcode_plugin');
-            add_filter('mce_buttons', 'nlp_register_button');
+    if( !function_exists( 'nlp_shortcode_button' ) ) {
+        // TinyMCE button settings
+        function nlp_shortcode_button() {
+            if ( current_user_can('edit_posts') && current_user_can('edit_pages') ) {
+                add_filter('mce_external_plugins', 'nlp_shortcode_plugin');
+                add_filter('mce_buttons', 'nlp_register_button');
+            }
         }
     }
-    // Hook the button into the TinyMCE editor
-    function nlp_register_button($buttons) {
-        array_push($buttons, "|" , "nlposts");
-        return $buttons;
+    if( !function_exists( 'nlp_register_button' ) ) {
+        // Hook the button into the TinyMCE editor
+        function nlp_register_button($buttons) {
+            array_push($buttons, "|" , "nlposts");
+            return $buttons;
+        }
     }
-    // Load the TinyMCE NLposts shortcode plugin
-    function nlp_shortcode_plugin($plugin_array) {
-       $plugin_array['nlposts'] = plugin_dir_url(__FILE__) . NLP_CORE_REL . NLP_JS_REL .'tinymce-shortcode.js';
-       return $plugin_array;
+    if( !function_exists( 'nlp_shortcode_plugin' ) ) {
+        // Load the TinyMCE NLposts shortcode plugin
+        function nlp_shortcode_plugin($plugin_array) {
+           $plugin_array['nlposts'] = plugin_dir_url(__FILE__) . NLP_CORE_REL . NLP_JS_REL .'tinymce-shortcode.js';
+           return $plugin_array;
+        }
     }
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-accordion');

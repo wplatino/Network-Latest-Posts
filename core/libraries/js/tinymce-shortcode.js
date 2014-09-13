@@ -37,7 +37,7 @@
         init : function(ed, url) {
             var getUrl = url.split('/');
             var nlpIcon = getUrl[0]+'//'+getUrl[2]+'/'+getUrl[3]+'/'+getUrl[4]+'/'+getUrl[5]+'/'+getUrl[6]+'/includes/styles/images/menu_icon.png';
-            var nlpShortcode = getUrl[0]+'//'+getUrl[2]+'/'+getUrl[3]+'/'+getUrl[4]+'/'+getUrl[5]+'/'+getUrl[6]+'/libraries/nlposts-shortcode.php';
+            var nlpShortcode = getUrl[0]+'//'+getUrl[2]+'/'+getUrl[3]+'/'+getUrl[4]+'/'+getUrl[5]+'/'+getUrl[6]+'/includes/functions/nlposts-shortcode.php';
             // Add this button to the TinyMCE editor
             ed.addButton('nlposts', {
                 // Button title

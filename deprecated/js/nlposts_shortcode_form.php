@@ -106,6 +106,7 @@ $defaults = array(
 $settings = array();
 // Parse & merge the settings with the default values
 $settings = wp_parse_args( $settings, $defaults );
+print_r( $settings );
 // Extract elements as variables
 extract( $settings );
 $thumbnail_size = str_replace('x',',',$thumbnail_wh);

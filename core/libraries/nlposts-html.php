@@ -49,21 +49,22 @@ class NLPosts_HTML {
         $data       = $data_structure['data'];
         $structure  = $data_structure['structure'];
         $class      = $data_structure['class'];
+        $id         = $data_structure['id'];
         if( is_array( $class ) )
             $class = implode( ' ', $class );
         // Tags
         $html_open  = apply_filters( 'nlposts_custom_html5_open', array(
-            'div'       => "<div class='".$class."'>",
-            'header'    => "<header class='".$class."'>",
-            'footer'    => "<footer class='".$class."'>",
-            'nav'       => "<nav class='".$class."'>",
-            'article'   => "<article class='".$class."'>",
-            'section'   => "<section class='".$class."'>",
-            'aside'     => "<aside class='".$class."'>",
-            'p'         => "<p class='".$class."'>",
-            'small'     => "<small class='".$class."'>",
-            'ul'        => "<ul class='".$class."'>",
-            'li'        => "<li class='".$class."'>",
+            'div'       => "<div id='".$id."' class='".$class."'>",
+            'header'    => "<header id='".$id."' class='".$class."'>",
+            'footer'    => "<footer id='".$id."' class='".$class."'>",
+            'nav'       => "<nav id='".$id."' class='".$class."'>",
+            'article'   => "<article id='".$id."' class='".$class."'>",
+            'section'   => "<section id='".$id."' class='".$class."'>",
+            'aside'     => "<aside id='".$id."' class='".$class."'>",
+            'p'         => "<p id='".$id."' class='".$class."'>",
+            'small'     => "<small id='".$id."' class='".$class."'>",
+            'ul'        => "<ul id='".$id."' class='".$class."'>",
+            'li'        => "<li id='".$id."' class='".$class."'>",
         ) );
         $html_close = apply_filters( 'nlposts_custom_html5_close', array(
             'div'       => '</div>',
@@ -87,15 +88,29 @@ class NLPosts_HTML {
             // Reverse structure for closing tags
             $reverse_structure = array_reverse( $structure );
             for( $x = 0; $x < count( $structure ); $x++ ) {
-                @$wrap_structure .= $html_open[ $structure[$x] ];
+                $wrap_structure .= $html_open[ $structure[$x] ];
             }
-            @$wrap_structure .= $data;
+            $wrap_structure .= $data;
             for( $y = 0; $y < count( $reverse_structure ); $y++ ) {
-                @$wrap_structure .= $html_close[ $reverse_structure[$y] ];
+                $wrap_structure .= $html_close[ $reverse_structure[$y] ];
             }
         }
         // Return wrapped content
         return $wrap_structure;
+    }
+    /**
+     * Seflclosing tags
+     *
+     * Creates self closing tags
+     * @param string $structure HTML structure
+     * @return string $tag
+     */
+    public function selfclosing_tag( $structure ) {
+        $tag        = apply_filters( 'nlposts_custom_seflclosing_tag', array(
+            'br'    => "<br />",
+            'hr'    => "<hr />",
+        ) );
+        return $tag[$structure];
     }
     /**
      * Header Tag

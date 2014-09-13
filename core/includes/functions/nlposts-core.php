@@ -321,6 +321,7 @@ class NLPosts_Core {
         /**
          * Post Types
          */
+        $types = array();
         if( !empty( $post_type ) ) {
             if( !preg_match( "/,/", $post_type ) ) {
                 if( $post_type != 'post' )
@@ -331,9 +332,7 @@ class NLPosts_Core {
                     $types[] = htmlspecialchars( $type );
                 }
             }
-        } else
-            $types = array();
-
+        }
         $posts_options['post_type'] = $types;
         /**
          * Post Languages
@@ -881,7 +880,7 @@ class NLPosts_Core {
      * @param array $parameters Custom parameters
      * @return array $blog_list List of blogs with data
      */
-    protected function nlposts_get_blogs( $parameters = null ) {
+    public function nlposts_get_blogs( $parameters = null ) {
         // WordPress Global Database Object
         global $wpdb;
         // Merge parameters ( custom, defaults )
@@ -962,6 +961,8 @@ class NLPosts_Core {
          *    [nlposts blog_visibility=public,invisible,mature]
          * </code>
          */
+        $blog_include_sql = '';
+        $blog_exclude_sql = '';
         if( !preg_match( "/,/", $query_args['blog_visibility'] ) ) {
             // Sanitize
             $blog_visibility = htmlspecialchars( $query_args['blog_visibility'] );

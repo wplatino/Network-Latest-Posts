@@ -4,7 +4,7 @@
  *
  * @package Network Latest Posts
  * @author José SAYAGO <jose.sayago@laelite.info>
- * @internal nlposts_shortcode_form.php
+ * @internal nlposts-shortcode.php
  *
  * Shortcode Form
  *      TinyMCE shortcode form helper.
@@ -31,78 +31,150 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-// Retrieve the WordPress root path
-function nlp_config_path() {
-    $base = dirname(__FILE__);
-    $path = false;
-    // Check multiple levels, until find the config file
-    if (@file_exists(dirname(dirname($base))."/wp-config.php")){
-        $path = dirname(dirname($base));
-    } elseif (@file_exists(dirname(dirname(dirname($base)))."/wp-config.php")) {
-        $path = dirname(dirname(dirname($base)));
-    } elseif (@file_exists(dirname(dirname(dirname(dirname($base))))."/wp-config.php")) {
-        $path = dirname(dirname(dirname(dirname($base))));
-    } elseif (@file_exists(dirname(dirname(dirname(dirname(dirname($base)))))."/wp-config.php")) {
-        $path = dirname(dirname(dirname(dirname(dirname($base)))));
-    } elseif (@file_exists(dirname(dirname(dirname(dirname(dirname(dirname($base))))))."/wp-config.php")) {
-        $path = dirname(dirname(dirname(dirname(dirname(dirname($base))))));
-    } else {
+class NLPosts_Shortcode {
+    /**
+     * Constructor
+     */
+    public function NLPosts_Shortcode() {
+        $base_file      = dirname( __FILE__ );
+        return $base_file;
+    }
+    /**
+     * WordPress Configuration Path
+     *
+     * Finds the WordPress configuration file and return its path
+     *
+     * @param string $base file dirname
+     * @return string $path file path
+     */
+    // Retrieve the WordPress root path
+    public function nlposts_wp_config( $base ) {
         $path = false;
+        if( !empty( $base ) ) {
+            // Check multiple levels, until find the config file
+            if ( file_exists( dirname( dirname( $base ) ).'/wp-config.php' ) ) {
+                $path = dirname( dirname( $base ) );
+            } elseif ( file_exists( dirname( dirname( dirname( $base ) ) ).'/wp-config.php' ) ) {
+                $path = dirname( dirname( dirname( $base ) ) );
+            } elseif ( file_exists( dirname( dirname( dirname( dirname( $base ) ) ) ).'/wp-config.php' ) ) {
+                $path = dirname( dirname( dirname( dirname( $base ) ) ) );
+            } elseif ( file_exists( dirname( dirname( dirname( dirname( dirname( $base ) ) ) ) ).'/wp-config.php' ) ) {
+                $path = dirname( dirname( dirname( dirname( dirname( $base ) ) ) ) );
+            } elseif ( file_exists( dirname( dirname( dirname( dirname( dirname( dirname( $base ) ) ) ) ) ).'/wp-config.php' ) ) {
+                $path = dirname( dirname( dirname( dirname( dirname( dirname( $base ) ) ) ) ) );
+            } else { $path = false; }
+            // Get the path
+            if ( $path != false ) { $path = str_replace( '\\', '/', $path ); }
+            // Return the path
+            return $path;
+        } else { return false; }
     }
-    // Get the path
-    if ($path != false){
-        $path = str_replace("\\", "/", $path);
-    }
-    // Return the path
-    return $path;
 }
-$wp_root_path = nlp_config_path();
-// Load WordPress functions & NLposts_Widget class
-require_once("$wp_root_path/wp-load.php");
-// Widget object
-$widget_obj = new NLposts_Widget();
-// Default values
-$defaults = array(
-    'title'            => NULL,          // Widget title
-    'number_posts'     => 10,            // Number of posts to be displayed
-    'time_frame'       => 0,             // Time frame to look for posts in days
-    'title_only'       => TRUE,          // Display the post title only
-    'display_type'     => 'ulist',       // Display content as a: olist (ordered), ulist (unordered), block
-    'blog_id'          => NULL,          // ID(s) of the blog(s) you want to display the latest posts
-    'ignore_blog'      => NULL,          // ID(s) of the blog(s) you want to ignore
-    'thumbnail'        => FALSE,         // Display the thumbnail
-    'thumbnail_wh'     => '80x80',       // Thumbnail Width & Height in pixels
-    'thumbnail_class'  => NULL,          // Thumbnail CSS class
-    'thumbnail_filler' => 'placeholder', // Replacement image for posts without thumbnail (placeholder, kittens, puppies)
-    'thumbnail_custom' => FALSE,         // Pull thumbnails from custom fields
-    'thumbnail_field'  => NULL,          // Custom field containing image url
-    'thumbnail_url'    => NULL,          // Custom thumbnail URL
-    'custom_post_type' => 'post',        // Type of posts to display
-    'category'         => NULL,          // Category(ies) to display
-    'tag'              => NULL,          // Tag(s) to display
-    'paginate'         => FALSE,         // Paginate results
-    'posts_per_page'   => NULL,          // Number of posts per page (paginate needs to be active)
-    'display_content'  => FALSE,         // Display post content instead of excerpts (false by default)
-    'excerpt_length'   => NULL,          // Excerpt's length
-    'auto_excerpt'     => FALSE,         // Generate excerpt from content
-    'excerpt_trail'    => 'text',        // Excerpt's trailing element: text, image
-    'full_meta'        => FALSE,         // Display full metadata
-    'sort_by_date'     => FALSE,         // Display the latest posts first regardless of the blog they come from
-    'sort_by_blog'     => FALSE,         // Sort by blog ID
-    'sorting_order'    => NULL,          // Sort posts from Newest to Oldest or vice versa (newer / older), asc/desc for blog ID
-    'sorting_limit'    => NULL,          // Limit the number of sorted posts to display
-    'post_status'      => 'publish',     // Post status (publish, new, pending, draft, auto-draft, future, private, inherit, trash)
-    'css_style'        => NULL,          // Custom CSS _filename_ (ex: custom_style)
-    'wrapper_list_css' => 'nav nav-tabs nav-stacked', // Custom CSS classes for the list wrapper
-    'wrapper_block_css'=> 'content',     // Custom CSS classes for the block wrapper
-    'instance'         => NULL,          // Instance identifier, used to uniquely differenciate each shortcode used
-    'random'           => FALSE,         // Pull random posts
-    'post_ignore'      => NULL
-);
-// Set an array
+// Shortcode Object
+$shortcode = new NLPosts_Shortcode();
+// Requires WordPress Load file
+require_once( $shortcode->nlposts_wp_config( $shortcode->NLPosts_Shortcode() ) . '/wp-load.php');
+// Core Object
+$nlposts = new NLPosts_Core();
+// HTML Object
+$html = new NLPosts_HTML();
+// Phrases Object
+$phrases = new NLPosts_Phrases();
+// Set array
 $settings = array();
-// Parse & merge the settings with the default values
-$settings = wp_parse_args( $settings, $defaults );
+// Parse & merge settings with default values
+$settings = wp_parse_args( $settings, $nlposts->NLPosts_Core() );
+// Extract elements as variables
+extract( $settings );
+// Blogs Info
+$blogs = $nlposts->nlposts_get_blogs();
+// HTML Form
+$form_content = $html->header_tag( array(
+    'data'          => $phrases->nlposts_options_phrase()->shortcode_panel,
+    'structure'     => 'h2',
+    'class'         => ''
+) );
+$form_content.= $html->selfclosing_tag( 'hr' );
+$tab1 = $html->link_tag( array(
+    'title'         => $phrases->nlposts_options_phrase()->shortcode_tab1,
+    'href'          => '#tab1',
+    'class'         => 'tab1',
+    'text'          => $phrases->nlposts_options_phrase()->shortcode_tab1,
+) );
+$tab2 = $html->link_tag( array(
+    'title'         => $phrases->nlposts_options_phrase()->shortcode_tab2,
+    'href'          => '#tab2',
+    'class'         => 'tab2',
+    'text'          => $phrases->nlposts_options_phrase()->shortcode_tab2,
+) );
+$tab3 = $html->link_tag( array(
+    'title'         => $phrases->nlposts_options_phrase()->shortcode_tab3,
+    'href'          => '#tab3',
+    'class'         => 'tab3',
+    'text'          => $phrases->nlposts_options_phrase()->shortcode_tab3,
+) );
+$tab4 = $html->link_tag( array(
+    'title'         => $phrases->nlposts_options_phrase()->shortcode_tab4,
+    'href'          => '#tab4',
+    'class'         => 'tab4',
+    'text'          => $phrases->nlposts_options_phrase()->shortcode_tab4,
+) );
+$tab5 = $html->link_tag( array(
+    'title'         => $phrases->nlposts_options_phrase()->shortcode_tab5,
+    'href'          => '#tab5',
+    'class'         => 'tab5',
+    'text'          => $phrases->nlposts_options_phrase()->shortcode_tab5,
+) );
+$tabs = $html->html5_structure( array( 
+    'data'      => $tab1,
+    'structure' => 'li',
+    'class'     => '',
+    'id'        => ''
+) );
+$tabs.= $html->html5_structure( array( 
+    'data'      => $tab2,
+    'structure' => 'li',
+    'class'     => '',
+    'id'        => ''
+) );
+$tabs.= $html->html5_structure( array( 
+    'data'      => $tab3,
+    'structure' => 'li',
+    'class'     => '',
+    'id'        => ''
+) );
+$tabs.= $html->html5_structure( array( 
+    'data'      => $tab4,
+    'structure' => 'li',
+    'class'     => '',
+    'id'        => ''
+) );
+$tabs.= $html->html5_structure( array( 
+    'data'      => $tab5,
+    'structure' => 'li',
+    'class'     => '',
+    'id'        => ''
+) );
+$form_tabs = $html->html5_structure( array(
+    'data'          => $tabs,
+    'structure'     => 'ul',
+    'class'         => '',
+    'id'            => ''
+) );
+$form_content.= $html->html5_structure( array(
+    'data'          => $form_tabs,
+    'structure'     => 'div',
+    'class'         => '',
+    'id'            => 'nlptabs'
+) );
+$form_content.= $html->selfclosing_tag( 'hr' );
+echo $html->html5_structure( array( 
+    'data'          => $form_content,
+    'structure'     => 'div',
+    'class'         => 'wrap',
+    'id'            => ''
+) );
+/*
 // Extract elements as variables
 extract( $settings );
 $thumbnail_size = str_replace('x',',',$thumbnail_wh);
@@ -580,6 +652,7 @@ $widget_form.= "<div id='nlptabs'>";
 $widget_form.= "</div>";
 $widget_form.= "</form>";
 echo $widget_form;
+*/
 ?>
 <script type="text/javascript" charset="utf-8">
     //<![CDATA[
