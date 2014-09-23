@@ -115,6 +115,20 @@ class NLPosts_Phrases {
             'shortcode_tab3'            => __( 'Pagination & Sorting',                              NLP_TEXTDOMAIN ),
             'shortcode_tab4'            => __( 'Thumbnails',                                        NLP_TEXTDOMAIN ),
             'shortcode_tab5'            => __( 'Styling',                                           NLP_TEXTDOMAIN ),
+            'shortcode_f1_va'           => __( 'Instance Headline',                                 NLP_TEXTDOMAIN ),
+            'shortcode_f1_ph'           => __( 'i.e. Latest News',                                  NLP_TEXTDOMAIN ),
+            'shortcode_f2_va'           => __( 'Instance ID',                                       NLP_TEXTDOMAIN ),
+            'shortcode_f2_ph'           => __( 'i.e. homepage-news',                                NLP_TEXTDOMAIN ),
+            'shortcode_f3_va'           => __( 'Alert Message',                                     NLP_TEXTDOMAIN ),
+            'shortcode_f3_ph'           => __( 'i.e. No content found.',                            NLP_TEXTDOMAIN ),
+            'shortcode_f4_va'           => __( 'Cache Results',                                     NLP_TEXTDOMAIN ),
+            'shortcode_f4_op1'          => __( 'Yes',                                               NLP_TEXTDOMAIN ),
+            'shortcode_f4_op2'          => __( 'No',                                                NLP_TEXTDOMAIN ),
+            'shortcode_f5_va'           => __( 'Cache Time',                                        NLP_TEXTDOMAIN ),
+            'shortcode_f5_ph'           => __( 'i.e. 43200',                                        NLP_TEXTDOMAIN ),
+            'shortcode_f6_va'           => __( 'Query Relationship',                                NLP_TEXTDOMAIN ),
+            'shortcode_f6_op1'          => __( 'And',                                               NLP_TEXTDOMAIN ),
+            'shortcode_f6_op2'          => __( 'Or',                                                NLP_TEXTDOMAIN ),
         ) );
         /**
          * WPML Support

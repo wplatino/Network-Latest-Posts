@@ -247,6 +247,54 @@ class NLPosts_HTML {
             return false;
     }
     /**
+     * Input Tags
+     *
+     * Creates HTML input tags
+     * @param array $form_structure Form structure
+     * @return string $form_field Form fields
+     */
+    public function input_tag( $form_structure ) {
+        // Default parameters
+        $defaults   = apply_filters( 'nlposts_custom_input_tag', array(
+            'id'            => '',
+            'name'          => '',
+            'class'         => '',
+            'type'          => 'text',
+            'label'         => true,
+            'break'         => false,
+            'title'         => '',
+            'value'         => '',
+            'placeholder'   => '',
+        ) );
+        // Merge user's and default parameters
+        $parameters     = array_merge( $defaults, $form_structure );
+        $id             = $parameters['id'];
+        $name           = $parameters['name'];
+        $class          = $parameters['class'];
+        $type           = $parameters['type'];
+        $label          = $parameters['label'];
+        $break          = $parameters['break'];
+        $title          = $parameters['title'];
+        $value          = $parameters['value'];
+        $placeholder    = $parameters['placeholder'];
+        // Create label
+        $label_tag  = '<label for='.$id.'>'.$title.'</label>';
+        // Create input
+        $input_tag  = "<input type='$type' id='$id' name='$name' placeholder='$placeholder' class='$class' value='$value' />";
+        if( $label ) { 
+            if( $break )
+                $full_tag = $label_tag . '<br />' . $input_tag;
+            else
+                $full_tag = $label_tag . $input_tag;
+        } else
+            $full_tag = $input_tag;
+        // Return image
+        if( !empty( $full_tag ) )
+            return $full_tag;
+        else
+            return false;
+    }
+    /**
      * Language Code to ISO
      *
      * Converts from WordPress language
