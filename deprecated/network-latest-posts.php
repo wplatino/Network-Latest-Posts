@@ -36,6 +36,8 @@ Author URI: http://laelite.info/
  * until all users have upgraded.
  */
 if( NLP_DEPRECATED == 'yes' ) {
+    // Requires widget class
+    require_once dirname( __FILE__ ) . '/network-latest-posts-widget.php';
     /* Network Latest Posts Main Function
      *
      * Where the magic happens ;)
@@ -99,7 +101,6 @@ if( NLP_DEPRECATED == 'yes' ) {
             'thumbnail_class'  => NULL,          // Thumbnail CSS class
             'thumbnail_filler' => 'placeholder', // Replacement image for posts without thumbnail (placeholder, kittens, puppies)
             'thumbnail_custom' => FALSE,         // Pull thumbnails from custom fields
-            'thumbnail_table'  => 'post_meta',   // Table to pull custom field from, by default 
             'thumbnail_field'  => NULL,          // Custom field containing image url
             'thumbnail_url'    => NULL,          // Custom thumbnail URL
             'custom_post_type' => 'post',        // Type of posts to display
@@ -380,7 +381,12 @@ if( NLP_DEPRECATED == 'yes' ) {
                     // Access all post data
                     setup_postdata($post);
                     $sticky_key = ( is_sticky( $post->ID ) ) ? $sticky : $unsticky; //AFW
-                    $date_key = $use_pub_date ? $post->post_date : $post->post_modified; // AFW
+                    // AFW
+                    if( $use_pub_date == 'true' ) {
+                        $date_key = $post->post_date;
+                    } else {
+                        $date_key = $post->post_modified;
+                    }
                     // Sort by blog ID
                     if( $sort_by_blog == 'true' ) {
                         // Ignore Posts
@@ -411,7 +417,7 @@ if( NLP_DEPRECATED == 'yes' ) {
                 return;
             }
             // Sort if Sticky
-            if( $honor_sticky ) {
+            if( $honor_sticky == 'true' ) {
                 switch ( $sorting_order ) {
                     case "newer":
                     case "desc":
@@ -1086,6 +1092,7 @@ if( NLP_DEPRECATED == 'yes' ) {
                     'caption_o' => "<div class='nlposts-caption'>",
                     'caption_c' => "</div>"
                 );
+                $html_tags = apply_filters( 'nlposts_ulist_output', $html_tags );
                 break;
             // Ordered list
             case "olist":
@@ -1113,6 +1120,7 @@ if( NLP_DEPRECATED == 'yes' ) {
                     'caption_o' => "<div class='nlposts-caption'>",
                     'caption_c' => "</div>"
                 );
+                $html_tags = apply_filters( 'nlposts_olist_output', $html_tags );
                 break;
             // Block
             case "block":
@@ -1140,6 +1148,7 @@ if( NLP_DEPRECATED == 'yes' ) {
                     'caption_o' => "<div class='nlposts-caption'>",
                     'caption_c' => "</div>"
                 );
+                $html_tags = apply_filters( 'nlposts_block_output', $html_tags );
                 break;
             default:
                 // Unordered list
@@ -1167,6 +1176,7 @@ if( NLP_DEPRECATED == 'yes' ) {
                     'caption_o' => "<div class='nlposts-caption'>",
                     'caption_c' => "</div>"
                 );
+                $html_tags = apply_filters( 'nlposts_default_output', $html_tags );
                 break;
         }
         // Return tags
