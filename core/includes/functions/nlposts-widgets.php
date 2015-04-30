@@ -720,6 +720,5 @@ class NLposts_Widget extends WP_Widget {
         $widget_form.= $p_c;
         echo $widget_form;
     }
-
 }
 ?>

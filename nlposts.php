@@ -41,7 +41,7 @@ Author URI: http://laelite.info/
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 // Load Configuration File
-require_once( 'nlposts-config.php' );
+require_once( '_config.php' );
 $exec_config = new NLP_Config();
 $exec_config->NLP_Config();
 // Load Shortcodes for Version +4.0
